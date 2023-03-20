@@ -15,14 +15,14 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Navbar/>
-        <Routes>
-          <Route path="/" element={<Home />}/>
-          <Route path="/Clubs" element={<Clubs />}/>
-          <Route path="/Events" element={<Events />}/>
-          <Route path="/Calander" element={<Calander />}/>
-          <Route path="/Login" element={<Login />}/>
-        </Routes>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />}/>
+        <Route path="/Clubs" element={<Clubs />}/>
+        <Route path="/Events" element={<Events />}/>
+        <Route path="/Calander" element={<Calander />}/>
+        <Route path="/Login" element={<Login />}/>
+      </Routes>
     </BrowserRouter>
   );
 }
