@@ -1,4 +1,5 @@
 from model import Club
+from typing import Union
 from fastapi import FastAPI
 
 import motor.motor_asyncio
@@ -26,8 +27,8 @@ async def create_club(club):
     return document
 
 
-async def update_club(name, desc, size, status, email):
-    await collection.update_many({"name": name}, {"$set": {"description": desc, "size": size, "status": status, "email": email}})
+async def update_club(name, desc, size, status, email, tags: Union[list, None] = None):
+    await collection.update_many({"name": name}, {"$set": {"description": desc, "size": size, "status": status, "email": email, "tags": tags}})
     document = await collection.find_one({"name": name})
     return document
 

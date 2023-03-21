@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from typing import Union
 from model import Club
 
 app = FastAPI()
@@ -46,8 +47,11 @@ async def post_club(club: Club):
     raise HTTPException(400, "Something went wrong")
 
 @app.put("/api/club/{name}/", response_model=Club)
-async def put_club(name: str, desc: str, size: int, status: bool, email: str):
-    response = await update_club(name, desc, size, status, email)
+async def put_club(name: str, desc: str, size: int, status: bool, email: str, tags: Union[list, None] = None):
+    if tags:
+        response = await update_club(name, desc, size, status, email, tags)
+    else:
+        response = await update_club(name, desc, size, status, email)
     if response:
         return response
     raise HTTPException(404, f"There is no club with the name {name}")
