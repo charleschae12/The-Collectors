@@ -1,4 +1,6 @@
+
 from pydantic import BaseModel
+from typing import List, Optional
 
 class Club(BaseModel):
   name: str
@@ -6,4 +8,4 @@ class Club(BaseModel):
   email: str
   status: bool
   size: int
-  
+  tags: Optional[List[str]] = None
