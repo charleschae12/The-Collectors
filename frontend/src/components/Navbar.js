@@ -1,34 +1,37 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import '../App.css';
 import styled from 'styled-components';
 import logo from './Logo.png';
 
 function Navbar() {
-  return (
-    <Nav>
-      <NavMenu>
-        <NavLink to="/">
-          <img src={logo} width={50} height={50} />
-        </NavLink>
-        <NavLink to="/">
-          Home
-        </NavLink>
-        <NavLink to="/Clubs">
-          Clubs
-        </NavLink>
-        <NavLink to="/Events">
-          Events
-        </NavLink>
-        <NavLink to="/Calender">
-          Calander
-        </NavLink>
-      </NavMenu>
-      <NavBtn>
-        <NavBtnLink to='/Login'>Sign In</NavBtnLink>
-      </NavBtn>
-    </Nav>
-  )
+  let location = useLocation();
+  if (location.pathname !== "/Login"){
+    return (
+      <Nav>
+        <NavMenu>
+          <NavLink to="/">
+            <img src={logo} width={50} height={50} />
+          </NavLink>
+          <NavLink to="/">
+            Home
+          </NavLink>
+          <NavLink to="/Clubs">
+            Clubs
+          </NavLink>
+          <NavLink to="/Events">
+            Events
+          </NavLink>
+          <NavLink to="/Calender">
+            Calander
+          </NavLink>
+        </NavMenu>
+        <NavBtn>
+          <NavBtnLink to='/Login'>Sign In</NavBtnLink>
+        </NavBtn>
+      </Nav>
+    )
+  }
 }
 
 
