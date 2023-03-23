@@ -9,6 +9,7 @@ import Events from "./pages/Events";
 import Calander from "./pages/Calender";
 import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
+import GreekLife from './pages/GreekLife';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}/>
         <Route path="/Clubs" element={<Clubs />}/>
+        <Route path="/GreekLife" element={<GreekLife />}/>
         <Route path="/Events" element={<Events />}/>
         <Route path="/Calander" element={<Calander />}/>
         <Route path="/Login" element={<Login />}/>

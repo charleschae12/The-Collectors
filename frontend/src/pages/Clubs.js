@@ -21,6 +21,7 @@ function Clubs() {
         setClubList(res.data)
       })
   })
+  
   // Post a club
   const addClubsHandler = () => {
     axios.post('http://localhost:8000/api/club', { 'name': name, 'description': desc, 'size': size, 'status': status, 'email': email })
@@ -28,26 +29,24 @@ function Clubs() {
   }
 
   return (
-    <div className="App list-group-item justify-content-center align-items-center mx-auto" style={{"width":"400px", "backgroundColor":"white", "marginTop":"15px"}}>
-    <h1 className="card text-white bg-primary mb-1" styleName="max-width: 20rem;">Task Manager</h1>
-    <h6 className="card text-white bg-primary mb-3">FASTAPI - React - MongoDB</h6>
+    <div className="App list-group-item justify-content-center align-items-center mx-auto" style={{"width":"800px", "backgroundColor":"white", "marginTop":"15px"}}>
+    <h1 className="card text-white bg-primary mb-1" styleName="max-width: 20rem;">CLUBS</h1>
     <div className="card-body">
-    <h5 className="card text-white bg-dark mb-3">Add Your Task</h5>
+    <h5 className="card text-white bg-dark mb-3">Add a Club</h5>
       <span className="card-text">
         <input type="text" className="mb-2 form-control nameIn" onChange={event => setName(event.target.value)} placeholder='Name'/>
         <input type="text" className="mb-2 form-control desIn" onChange={event => setDesc(event.target.value)} placeholder='Description'/>
         <input type="number" className="mb-2 form-control sizeIn" onChange={event => setSize(event.target.value)} placeholder='0'/>
         <label> Active: <input type="checkbox" onChange={event => setStatus(event.target.checked)}/></label>
         <input type="text" className="mb-2 form-control emailIn" onChange={event => setEmail(event.target.value)} placeholder='Email'/>
-        <button className="btn btn-outline-primary mx-2 mb-3" style={{'borderRadius':'50px', "font-weight":"bold"}} onClick={addClubsHandler}>Add Task</button>
+        <button className="btn btn-outline-primary mx-2 mb-3" style={{'borderRadius':'50px', "font-weight":"bold"}} onClick={addClubsHandler}>Add Club</button>
       </span>
 
-      <h5 className="card text-white bg-dark mb-3">Your Tasks</h5>
+      <h5 className="card text-white bg-dark mb-3">Clubs:</h5>
       <div>
         <ClubsView clubList={clubList} />
       </div>
     </div>
-    <h6 className="card text-dark bg-warning py-1 mb-0"> Copyright 2021, All rights reserved &copy;</h6>
     </div>
   );
 }
