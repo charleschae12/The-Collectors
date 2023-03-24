@@ -19,6 +19,9 @@ function Navbar() {
           <NavLink to="/Clubs">
             Clubs
           </NavLink>
+          <NavLink to="/GreekLife">
+            Greek Life
+          </NavLink>
           <NavLink to="/Events">
             Events
           </NavLink>
