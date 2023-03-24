@@ -3,13 +3,14 @@ The Collectors is a team of students working on a project for the Software Desig
 This project's purpose and design is to consolidate all clubs and organizations affiliated with RPI.
 
 ## Team Members
-Justin Chang
-Charles Chae
-David Finck
-Junseob Kim
-Bill Wang
+Justin Chang  
+Charles Chae  
+David Finck  
+Junseob Kim  
+Bill Wang  
 
-## How to set up development environment
+## How to set up the development environment
+
 ### Installing Python
 1. Download and install latest Python at https://www.python.org/downloads/
 2. When installing, make sure that:
