@@ -22,8 +22,8 @@ function Navbar() {
           <NavLink to="/Events">
             Events
           </NavLink>
-          <NavLink to="/Calender">
-            Calander
+          <NavLink to="/Calendar">
+            Calendar
           </NavLink>
         </NavMenu>
         <NavBtn>
