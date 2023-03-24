@@ -1,5 +1,6 @@
 # The-Collectors
-Testing if this works
+The Collectors is a team of students working on a project for the Software Design & Documentations course at Rensselaer Polytechnic Institute.
+This project's purpose and design is to consolidate all clubs and organizations affiliated with RPI.
 
 ## Team Members
 Justin Chang
@@ -8,11 +9,13 @@ David Finck
 Junseob Kim
 Bill Wang
 
-## Installing Dependencies - Programs
-
-# Installing Python
-1. Install latest Python at https://www.python.org/downloads/
+## How to set up development environment
+### Installing Python
+1. Download and install latest Python at https://www.python.org/downloads/
 2. When installing, make sure that:
     - Python.exe is added to PATH
     - pip is also installed
 
+### Installing MongoDB
+1. Download and install latest MongoDB Compass at https://www.mongodb.com/products/compass
+2. When connection 
