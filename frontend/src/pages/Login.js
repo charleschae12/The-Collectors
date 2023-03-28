@@ -2,7 +2,6 @@ import React from 'react';
 import '../App.css'
 import Bgimg from './BG.png';
 import styled from 'styled-components';
-import Home from './Home';
 import { Link } from "react-router-dom";
 
 function Login(){
