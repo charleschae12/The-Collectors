@@ -43,9 +43,11 @@ export default Navbar;
 //  >>styles are written here<<
 
 export const Nav = styled.nav`
+  position: fixed;
   background: #000020;
   height: 70px;
   display: flex;
+  width: 100%;
   justify-content: space-between;
 `;
 
