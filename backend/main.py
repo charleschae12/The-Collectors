@@ -11,6 +11,8 @@ from database import (
     create_club,
     update_club,
     remove_club,
+    add_tag,
+    remove_tag,
 )
 
 origins = ['http://localhost:3000']
@@ -47,11 +49,8 @@ async def post_club(club: Club):
     raise HTTPException(400, "Something went wrong")
 
 @app.put("/api/club/{name}/", response_model=Club)
-async def put_club(name: str, desc: str, size: int, status: bool, email: str, tags: Union[list, None] = None):
-    if tags:
-        response = await update_club(name, desc, size, status, email, tags)
-    else:
-        response = await update_club(name, desc, size, status, email)
+async def put_club(name: str, desc: str, size: int, status: bool, email: str):
+    response = await update_club(name, desc, size, status, email)
     if response:
         return response
     raise HTTPException(404, f"There is no club with the name {name}")
@@ -61,4 +60,18 @@ async def delete_club(name):
     response = await remove_club(name)
     if response:
         return "Successfully deleted club"
+    raise HTTPException(404, f"There is no club with the name {name}")
+
+@app.put("/api/club/{name}/tags/", response_model=Club)
+async def put_tag(name: str, tag: str):
+    response = await add_tag(name, tag)
+    if response:
+        return response
+    raise HTTPException(404, f"There is no club with the name {name}")
+
+@app.delete("/api/club/{name}/tags/", response_model=Club)
+async def delete_tag(name: str, tag: str):
+    response = await remove_tag(name, tag)
+    if response:
+        return response
     raise HTTPException(404, f"There is no club with the name {name}")
