@@ -18,9 +18,10 @@ app.add_middleware(CORSMiddleware,
 async def read_root():
     return {"Hello": "World"}
 
+# GET all clubs/organizations
 @app.get("/api/clubs")
 async def get_clubs():
-    response = await fetch_all_clubs(False)
+    response = await fetch_all_clubs()
     return response
 
 @app.get("/api/orgs")
@@ -28,72 +29,92 @@ async def get_orgs():
     response = await fetch_all_clubs(True)
     return response
 
-@app.get("/api/clubs/{name}", response_model = Model)
+# GET one club/organizations
+@app.get("/api/clubs/{name}", response_model = Club)
 async def get_club_by_name(name):
-    response = await fetch_one_club(name, False)
+    response = await fetch_one_club(name)
     if response:
         return response
     raise HTTPException(404, f"There is no club with the name {name}")
 
-@app.get("/api/clubs/{name}", response_model = Model)
+@app.get("/api/orgs/{name}", response_model = Club)
 async def get_org_by_name(name):
     response = await fetch_one_club(name, True)
     if response:
         return response
     raise HTTPException(404, f"There is no organization with the name {name}")
 
-@app.post("/api/clubs/", response_model = Model)
-async def post_club(club: Model):
-    response = await create_club(club.dict(), False)
+# POST (create) a club/organization
+@app.post("/api/clubs", response_model = Club)
+async def post_club(club: Club):
+    response = await create_club(club.dict())
     if response:
         return response
-    raise HTTPException(400, "Something went wrong")
+    raise HTTPException(400, "Something went wrong when creating a club")
 
-@app.post("/api/orgs/", response_model = Model)
-async def post_club(club: Model):
+@app.post("/api/orgs", response_model = Club)
+async def post_club(club: Club):
     response = await create_club(club.dict(), True)
     if response:
         return response
-    raise HTTPException(400, "Something went wrong")
+    raise HTTPException(400, "Something went wrong when creating an organization")
 
-## review PUT commands
-@app.put("/api/clubs/{name}/", response_model = Model)
-async def put_club(name: str, desc: str, size: int, status: bool, email: str, tags: Union[list, None] = None):
-    if tags:
-        response = await update_club(name, desc, size, status, email, tags)
-    else:
-        response = await update_club(name, desc, size, status, email)
+# PUT (update) a club/organization
+@app.put("/api/clubs/{name}/", response_model = Club)
+async def put_club(name: str, desc: str, size: int, status: bool, email: str):
+    response = await update_club(name, desc, size, status, email)
     if response:
         return response
     raise HTTPException(404, f"There is no club with the name {name}")
 
-@app.put("/api/clubs/{name}/", response_model = Model)
-async def put_club(name: str, desc: str, size: int, status: bool, email: str, tags: Union[list, None] = None):
-    if tags:
-        response = await update_club(name, desc, size, status, email, tags, False)
-    else:
-        response = await update_club(name, desc, size, status, email)
+@app.put("/api/orgs/{name}/", response_model = Club)
+async def put_club(name: str, desc: str, size: int, status: bool, email: str):
+    response = await update_club(name, desc, size, status, email, True)
     if response:
         return response
-    raise HTTPException(404, f"There is no club with the name {name}")
+    raise HTTPException(404, f"There is no organization with the name {name}")
 
+# DELETE a club/organization
 @app.delete("/api/clubs/{name}")
 async def delete_club(name):
-    response = await remove_club(name, False)
+    response = await remove_club(name)
     if response:
         return "Successfully deleted club"
     raise HTTPException(404, f"There is no club with the name {name}")
 
-@app.put("/api/club/{name}/tags/", response_model=Club)
+@app.delete("/api/orgs/{name}")
+async def delete_club(name):
+    response = await remove_club(name, True)
+    if response:
+        return "Successfully deleted organization"
+    raise HTTPException(404, f"There is no organization with the name {name}")
+
+# PUT club/organization tags
+@app.put("/api/club/{name}/tags/", response_model = Club)
 async def put_tag(name: str, tag: str):
     response = await add_tag(name, tag)
     if response:
         return response
     raise HTTPException(404, f"There is no club with the name {name}")
 
-@app.delete("/api/club/{name}/tags/", response_model=Club)
+@app.put("/api/orgs/{name}/tags/", response_model = Club)
+async def put_tag(name: str, tag: str):
+    response = await add_tag(name, tag, True)
+    if response:
+        return response
+    raise HTTPException(404, f"There is no organization with the name {name}")
+
+# DELETE club/organization tags
+@app.delete("/api/club/{name}/tags/", response_model = Club)
 async def delete_tag(name: str, tag: str):
     response = await remove_tag(name, tag)
     if response:
         return response
     raise HTTPException(404, f"There is no club with the name {name}")
+
+@app.delete("/api/orgs/{name}/tags/", response_model = Club)
+async def delete_tag(name: str, tag: str):
+    response = await remove_tag(name, tag, True)
+    if response:
+        return response
+    raise HTTPException(404, f"There is no organization with the name {name}")
