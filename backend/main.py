@@ -53,7 +53,7 @@ async def post_club(club: Club):
     raise HTTPException(400, "Something went wrong when creating a club")
 
 @app.post("/api/orgs", response_model = Club)
-async def post_club(club: Club):
+async def post_org(club: Club):
     response = await create_club(club.dict(), True)
     if response:
         return response
@@ -68,7 +68,7 @@ async def put_club(name: str, desc: str, size: int, status: bool, email: str):
     raise HTTPException(404, f"There is no club with the name {name}")
 
 @app.put("/api/orgs/{name}/", response_model = Club)
-async def put_club(name: str, desc: str, size: int, status: bool, email: str):
+async def put_org(name: str, desc: str, size: int, status: bool, email: str):
     response = await update_club(name, desc, size, status, email, True)
     if response:
         return response
@@ -83,7 +83,7 @@ async def delete_club(name):
     raise HTTPException(404, f"There is no club with the name {name}")
 
 @app.delete("/api/orgs/{name}")
-async def delete_club(name):
+async def delete_org(name):
     response = await remove_club(name, True)
     if response:
         return "Successfully deleted organization"
@@ -91,14 +91,14 @@ async def delete_club(name):
 
 # PUT club/organization tags
 @app.put("/api/club/{name}/tags/", response_model = Club)
-async def put_tag(name: str, tag: str):
+async def put_club_tag(name: str, tag: str):
     response = await add_tag(name, tag)
     if response:
         return response
     raise HTTPException(404, f"There is no club with the name {name}")
 
 @app.put("/api/orgs/{name}/tags/", response_model = Club)
-async def put_tag(name: str, tag: str):
+async def put_org_tag(name: str, tag: str):
     response = await add_tag(name, tag, True)
     if response:
         return response
@@ -106,14 +106,14 @@ async def put_tag(name: str, tag: str):
 
 # DELETE club/organization tags
 @app.delete("/api/club/{name}/tags/", response_model = Club)
-async def delete_tag(name: str, tag: str):
+async def delete_club_tag(name: str, tag: str):
     response = await remove_tag(name, tag)
     if response:
         return response
     raise HTTPException(404, f"There is no club with the name {name}")
 
 @app.delete("/api/orgs/{name}/tags/", response_model = Club)
-async def delete_tag(name: str, tag: str):
+async def delete_org_tag(name: str, tag: str):
     response = await remove_tag(name, tag, True)
     if response:
         return response
