@@ -3,7 +3,9 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ClubsView from '../components/ClubsView';
-import Bgimg from './HD.png'
+import Bgimg from './HD.png';
+import SearchBar from '../components/SearchBar';
+import ClubList from '../components/Clubs';
 
 
 function Home() {
@@ -14,6 +16,10 @@ function Home() {
   const [size, setSize] = useState(0)
   const [status, setStatus] = useState(false)
   const [email, setEmail] = useState('')
+  const [loading, setLoading] = useState(true)
+  const [keyword, setKeyword] = useState('');
+  const [listed, setListed] = useState([]);
+  const [error, setError] = useState(null);
 
   // Read all clubss
   useEffect(() => {
@@ -22,6 +28,27 @@ function Home() {
         setClubList(res.data)
       })
   })
+
+  const fetchData = async() => {
+    try {
+      setListed(ClubList);
+      setError(null);
+    } catch(err){
+      setError(err.message);
+      setListed(null);
+    } finally{
+      setLoading(false);
+    }
+  }
+
+  // Search Function
+  const updateKey = (keyword) => {
+    const filtered = listed.filter(listed => {
+      return `${listed.name.toLowerCase()}`.includes(keyword.toLowerCase());
+    })
+    setKeyword(keyword);
+    setClubList(filtered);
+  }
   
   return (
     <div style={{
@@ -44,18 +71,7 @@ function Home() {
         justifyContent: 'center',
         alignContent: 'center',
       }}>
-        <input
-          type = 'text'
-          placeholder = 'Type something to search!'
-          style={{
-            padding: '10px',
-            backgroundColor: '#ffffffe0',
-            borderRadius: '25px',
-            width: '40vw',
-            border: 'none',
-            height: '60px',
-            textAlign: 'left',
-        }}/>
+        <SearchBar keyword={keyword} onChange={updateKey} />
         <div style={{
           height: '10px',
         }} />
@@ -66,7 +82,7 @@ function Home() {
           width: '50vw',
           height: '65vh',
         }}>
-
+          <ClubsView clubList={clubList} />
         </div>
       </div>
     </div>
