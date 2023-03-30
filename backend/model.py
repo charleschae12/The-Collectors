@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import List, Optional
 
-class Model(BaseModel):
+class Club(BaseModel):
   name: str
   description: str
   email: str

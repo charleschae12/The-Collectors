@@ -1,7 +1,6 @@
 import motor.motor_asyncio
-from model import Model
-from typing import Union
 from fastapi import FastAPI
+from model import *
 
 app = FastAPI()
 
@@ -25,7 +24,7 @@ async def fetch_all_clubs(find_orgs = False):
         cursor = clubs_collection.find({})
     clubs = []
     async for document in cursor:
-        clubs.append(Model(**document))
+        clubs.append(Club(**document))
     return clubs
 
 async def create_club(club, create_org = False):
@@ -35,20 +34,35 @@ async def create_club(club, create_org = False):
         await clubs_collection.insert_one(club)
     return club
 
-async def update_club(name, desc, size, status, email):
-    await collection.update_many({"name": name}, {"$set": {"description": desc, "size": size, "status": status, "email": email}})
-    document = await collection.find_one({"name": name})
+async def update_club(name, desc, size, status, email, update_org = False):
+    if update_org:
+        await orgs_collection.update_many({"name": name}, {"$set": {"description": desc, "size": size, "status": status, "email": email}})
+        document = await orgs_collection.find_one({"name": name})
+    else:
+        await clubs_collection.update_many({"name": name}, {"$set": {"description": desc, "size": size, "status": status, "email": email}})
+        document = await clubs_collection.find_one({"name": name})
     return document
 
-async def remove_club(name):
-    return await collection.delete_one({"name": name})
+async def remove_club(name, remove_org = False):
+    if remove_org:
+        return await orgs_collection.delete_one({"name": name})
+    else:
+        return await clubs_collection.delete_one({"name": name})
 
-async def add_tag(name, tag):
-    await collection.update_one({"name": name}, {"$push": {"tags": tag}})
-    document = await collection.find_one({"name": name})
+async def add_tag(name, tag, org_tag = False):
+    if org_tag:
+        await orgs_collection.update_one({"name": name}, {"$push": {"tags":tag}})
+        document = await orgs_collection.find_one({"name": name})
+    else:   
+        await clubs_collection.update_one({"name": name}, {"$push": {"tags": tag}})
+        document = await clubs_collection.find_one({"name": name})
     return document
 
-async def remove_tag(name, tag):
-    await collection.update_one({"name": name}, {"$pull": {"tags": tag}})
-    document = await collection.find_one({"name": name})
+async def remove_tag(name, tag, org_tag = False):
+    if org_tag:    
+        await orgs_collection.update_one({"name": name}, {"$pull": {"tags": tag}})
+        document = await orgs_collection.find_one({"name": name})
+    else:
+        await clubs_collection.update_one({"name": name}, {"$pull": {"tags": tag}})
+        document = await clubs_collection.find_one({"name": name})
     return document
