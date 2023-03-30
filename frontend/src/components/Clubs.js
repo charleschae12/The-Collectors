@@ -40,14 +40,14 @@ function ClubsItem(props) {
     console.log(res.data))
   }
 
-  const editClubsHandler = (name, desc, size, status, email) => {
+  const editClubsHandler = (name) => {
     axios.put(`http://localhost:8000/api/club/${name}/?desc=${desc}&size=${size}&status=${status}&email=${email}`).then(res =>
     console.log(res.data))
   }
 
-  const Clicks = (name, desc, size, status, email) => {
+  const Clicks = (name) => {
     handleToggle();
-    editClubsHandler(name, desc, size, status, email);
+    editClubsHandler(name);
 
   }
 
@@ -72,14 +72,16 @@ function ClubsItem(props) {
           <hr></hr>
         </div>
         <div className={isActive ? "off" : "on"}>
-          <span className="card-text">
-          <p style={{ fontweight: 'bold, underline' }}>{props.Clubs.name} </p>
-          <input type="text" className="mb-2 form-control desIn" placeholder={props.Clubs.description} onChange={event => setDesc(event.target.value)}/>
-          <input type="number" className="mb-2 form-control sizeIn" placeholder={props.Clubs.size} onChange={event => setSize(event.target.value)}/>
-          <label> Active: <input type="checkbox" checked={props.Clubs.status} onChange={event => setStatus(event.target.checked)}/></label>
-          <input type="text" className="mb-2 form-control emailIn" placeholder={props.Clubs.email} onChange={event => setEmail(event.target.value)}/>
-          <button onClick={() => Clicks(name, desc, size, status, email)} className="btn btn-outline-danger my-2 mx-2" style={{'borderRadius':'50px',}}>confirm</button>
-          </span>
+          <form onSubmit={() => Clicks(props.Clubs.name)}>
+            <span className="card-text">
+            <p style={{ fontweight: 'bold, underline' }}>{props.Clubs.name} </p>
+            <input type="text" className="mb-2 form-control desIn" placeholder={props.Clubs.description} onChange={event => setDesc(event.target.value)}/>
+            <input type="number" className="mb-2 form-control sizeIn" placeholder={props.Clubs.size} onChange={event => setSize(event.target.value)}/>
+            <label> Active: <input type="checkbox" checked={props.Clubs.status} onChange={event => setStatus(event.target.checked)}/></label>
+            <input type="text" className="mb-2 form-control emailIn" placeholder={props.Clubs.email} onChange={event => setEmail(event.target.value)}/>
+            <button type="submit" className="btn btn-outline-danger my-2 mx-2" style={{'borderRadius':'50px',}}>confirm</button>
+            </span>
+          </form>
         </div>
       </p>
     </div>
