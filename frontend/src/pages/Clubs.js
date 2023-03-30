@@ -92,7 +92,7 @@ function Clubs(props) {
   }
 
   return (
-    <div className="App list-group-item justify-content-center align-items-center mx-auto" style={{"width":"800px", "backgroundColor":"white", "marginTop":"15px"}}>
+    <div className="App list-group-item justify-content-center align-items-center mx-auto" style={{"width":"800px", "paddingTop":"120px"}}>
     <h1 className="card text-white bg-primary mb-1" styleName="max-width: 20rem;">CLUBS</h1>
     <div className="card-body">
     <h5 className="card text-white bg-dark mb-3">Add a Club</h5>
