@@ -60,15 +60,15 @@ function Clubs(props) {
             }
           } else if (sortMethod === 'Active') {
             if (sortOrder === 'asc') {
-              return -1 || a.name.localeCompare(b.name);
+              return 1 || a.name.localeCompare(b.name);
             } else {
-              return 1 || b.name.localeCompare(a.name);
+              return -1 || b.name.localeCompare(a.name);
             }
           } else if (sortMethod === 'Inactive') {
             if (sortOrder === 'asc') {
-              return 1 || b.name.localeCompare(a.name);
-            } else {
               return -1 || a.name.localeCompare(b.name);
+            } else {
+              return 1 || b.name.localeCompare(a.name);
             }
           }
         });
