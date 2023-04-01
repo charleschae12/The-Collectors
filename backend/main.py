@@ -23,9 +23,20 @@ async def get_clubs():
     response = await fetch_all_clubs()
     return response
 
+#Get clubs and orginizations
+@app.get("/api/clubsorgs")
+async def get_clubsorgs():
+    response = await fetch_all_clubsorgs()
+    return response
+
 @app.get("/api/orgs")
 async def get_orgs():
     response = await fetch_all_clubs(True)
+    return response
+
+@app.get("/api/events")
+async def get_events():
+    response = await fetch_all_events()
     return response
 
 # GET one club/organizations
@@ -58,6 +69,13 @@ async def post_org(club: Club):
         return response
     raise HTTPException(400, "Something went wrong when creating an organization")
 
+@app.post("/api/events", response_model = Event)
+async def post_event(club: Event):
+    response = await create_event(club.dict())
+    if response:
+        return response
+    raise HTTPException(400, "Something went wrong when creating an event")
+
 # PUT (update) a club/organization
 @app.put("/api/clubs/{name}/", response_model = Club)
 async def put_club(name: str, desc: str, size: int, status: bool, email: str):
@@ -87,6 +105,13 @@ async def delete_org(name):
     if response:
         return "Successfully deleted organization"
     raise HTTPException(404, f"There is no organization with the name {name}")
+
+@app.delete("/api/clubs/{name}")
+async def delete_event(name):
+    response = await remove_event(name)
+    if response:
+        return "Successfully deleted event"
+    raise HTTPException(404, f"There is no event with the name {name}")
 
 # PUT club/organization tags
 @app.put("/api/club/{name}/tags/", response_model = Club)

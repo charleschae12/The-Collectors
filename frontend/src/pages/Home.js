@@ -3,6 +3,7 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ClubsView from '../components/ClubsView';
+import GreekLifeView from '../components/GreekLifeView';
 import Bgimg from './HD.png';
 import SearchBar from '../components/SearchBar';
 import ClubList from '../components/Clubs';
@@ -10,7 +11,8 @@ import ClubList from '../components/Clubs';
 
 function Home() {
 
-  const [clubList, setClubList] = useState([{}])
+  const [clubList, setClubList] = useState([])
+  const [greekLifeList, setgreekLifeList] = useState([])
   const [name, setName] = useState('')
   const [desc, setDesc] = useState('')
   const [size, setSize] = useState(0)
@@ -23,7 +25,7 @@ function Home() {
 
   // Read all clubss
   useEffect(() => {
-    axios.get('http://localhost:8000/api/club')
+    axios.get('http://localhost:8000/api/clubsorgs')
       .then(res => {
         setClubList(res.data)
       })
@@ -83,6 +85,7 @@ function Home() {
           height: '65vh',
         }}>
           <ClubsView clubList={clubList} />
+          <GreekLifeView key={greekLifeList} greekLifeList={greekLifeList} />
         </div>
       </div>
     </div>
