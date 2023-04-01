@@ -26,7 +26,7 @@ function Clubs(props) {
 
   // Read all clubss
   useEffect(() => {
-    axios.get('http://localhost:8000/api/club')
+    axios.get('http://localhost:8000/api/clubs')
       .then(res => {
         if (selectedTag !== '') {
           setFilteredData(res.data.filter(club => club.tags.includes(selectedTag)));
@@ -87,7 +87,7 @@ function Clubs(props) {
   
   // Post a club
   const addClubsHandler = () => {
-    axios.post('http://localhost:8000/api/club', { 'name': name, 'description': desc, 'size': size, 'status': status, 'email': email, 'tags': []})
+    axios.post('http://localhost:8000/api/clubs', { 'name': name, 'description': desc, 'size': size, 'status': status, 'email': email, 'tags': []})
     .then(res => console.log(res))
   }
 

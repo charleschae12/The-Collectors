@@ -36,12 +36,12 @@ function ClubsItem(props) {
   };
 
   const deleteClubsHandler = (name) => {
-    axios.delete(`http://localhost:8000/api/club/${name}`).then(res =>
+    axios.delete(`http://localhost:8000/api/clubs/${name}`).then(res =>
     console.log(res.data))
   }
 
   const editClubsHandler = (name) => {
-    axios.put(`http://localhost:8000/api/club/${name}/?desc=${desc}&size=${size}&status=${status}&email=${email}`).then(res =>
+    axios.put(`http://localhost:8000/api/clubs/${name}/?desc=${desc}&size=${size}&status=${status}&email=${email}`).then(res =>
     console.log(res.data))
   }
 
