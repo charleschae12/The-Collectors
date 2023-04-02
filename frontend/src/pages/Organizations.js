@@ -4,27 +4,20 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import GreekLifeView from '../components/GreekLifeView';
 
-
 function Organizations() {
 
   const [sortOrder, setSortOrder] = useState('asc');
   const [sortMethod, setSortMethod] = useState('name');
   const [greekLifeList, setgreekLifeList] = useState([])
-  const [name, setName] = useState('')
-  const [desc, setDesc] = useState('')
-  const [size, setSize] = useState(0)
-  const [status, setStatus] = useState(false)
-  const [email, setEmail] = useState('')
   const [selectedTag, setSelectedTag] = useState('');
   const [tagList, setTagList] = useState([]);
-  const [allTags, setAllTags] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
 
   function refreshPage() {
     window.location.reload();
   } 
 
-  // Read all clubss
+  // Read all clubs
   useEffect(() => {
     axios.get('http://localhost:8000/api/orgs')
       .then(res => {
@@ -84,52 +77,120 @@ function Organizations() {
       })
       .catch(error => console.log(error));
   }, [sortOrder, sortMethod, selectedTag, filteredData, refreshPage]);
-  
-  // Post a club
-  const addClubsHandler = () => {
-    axios.post('http://localhost:8000/api/orgs', { 'name': name, 'description': desc, 'size': size, 'status': status, 'email': email, 'tags': []})
-    .then(res => console.log(res))
+
+  const handleSortMethodChange = (e) => {
+    setSortMethod(e.target.value);
+  }
+
+  const handleSortOrderChange = (e) => {
+    setSortOrder(e.target.value);
+  }
+
+  const handleTagFilter = (tag) => {
+    setSelectedTag(tag);
+  }
+
+  const clearTagFilter = () => {
+    setSelectedTag('');
   }
 
   return (
-    <div className="App list-group-item justify-content-center align-items-center mx-auto" style={{"width":"800px", "paddingTop":"120px"}}>
-    <h1 className="card text-white bg-primary mb-1" styleName="max-width: 20rem;">Orginizations</h1>
-    <div className="card-body">
-    <h5 className="card text-white bg-dark mb-3">Add a Orginization</h5>
-    <form onSubmit={addClubsHandler}>
-      <span className="card-text">
-        <input type="text" className="mb-2 form-control nameIn" onChange={event => setName(event.target.value)} placeholder='Name'/>
-        <input type="text" className="mb-2 form-control desIn" onChange={event => setDesc(event.target.value)} placeholder='Description'/>
-        <input type="number" className="mb-2 form-control sizeIn" onChange={event => setSize(event.target.value)} placeholder='0'/>
-        <label> Active: <input type="checkbox" onChange={event => setStatus(event.target.checked)}/></label>
-        <input type="text" className="mb-2 form-control emailIn" onChange={event => setEmail(event.target.value)} placeholder='Email'/>
-        <button className="btn btn-outline-primary mx-2 mb-3" style={{'borderRadius':'50px', "font-weight":"bold"}}>Add Orginization</button>
-      </span>
-    </form>
-
-      <h5 className="card text-white bg-dark mb-3">Clubs:</h5>
-      <span>
-        <select value={sortMethod} onChange={(event) => setSortMethod(event.target.value)}>
-          <option value="nameAsc">Sort by name asc</option>
-          <option value="nameDesc">Sort by name desc</option>
-          <option value="sizeAsc">Sort by size asc</option>
-          <option value="sizeDesc">Sort by size desc</option>
-          <option value="Active">Sort by Active</option>
-          <option value="Inactive">Sort by Inactive</option>
-        </select>
-        <select value={selectedTag} onChange={(event) => setSelectedTag(event.target.value)}>
-          <option value="">All tags</option>
-          {tagList.map(tag => (
-            <option key={tag} value={tag}>{tag}</option>
-          ))}
-        </select>
-      </span>
-      <div>
-        <GreekLifeView greekLifeList={greekLifeList} />
+  <div className="container-fluid">
+    <div className="row mt-3 mb-3">
+      <div className="col-md-2">
+        <div className="form-group">
+          <label htmlFor="tag-select">Filter by Tag:</label>
+          <select
+            className="form-control"
+            id="tag-select"
+            value={selectedTag}
+            onChange={(e) => setSelectedTag(e.target.value)}
+          >
+            <option value="">All</option>
+            {tagList.map((tag, index) => (
+              <option key={index} value={tag}>
+                {tag}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
     </div>
+    <div className="table-responsive">
+      <table className="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>
+              <button
+                type="button"
+                className="btn btn-link"
+                onClick={() =>
+                  setSortMethod(sortMethod === "nameAsc" ? "nameDesc" : "nameAsc")
+                }
+              >
+                Name
+                {sortMethod === "nameAsc" && sortOrder === "asc" && (
+                  <i className="fas fa-caret-up ml-2"></i>
+                )}
+                {sortMethod === "nameAsc" && sortOrder === "desc" && (
+                  <i className="fas fa-caret-down ml-2"></i>
+                )}
+              </button>
+            </th>
+            <th>
+              <button
+                type="button"
+                className="btn btn-link"
+                onClick={() =>
+                  setSortMethod(sortMethod === "sizeAsc" ? "sizeDesc" : "sizeAsc")
+                }
+              >
+                Number of Members
+                {sortMethod === "sizeAsc" && sortOrder === "asc" && (
+                  <i className="fas fa-caret-up ml-2"></i>
+                )}
+                {sortMethod === "sizeAsc" && sortOrder === "desc" && (
+                  <i className="fas fa-caret-down ml-2"></i>
+                )}
+              </button>
+            </th>
+            <th>Description</th>
+            <th>Email</th>
+            <th>
+              <button
+                type="button"
+                className="btn btn-link"
+                onClick={() =>
+                  setSortMethod(sortMethod === "Active" ? "Inactive" : "Active")
+                }
+              >
+                Active
+                {sortMethod === "Active" && sortOrder === "asc" && (
+                  <i className="fas fa-caret-up ml-2"></i>
+                )}
+                {sortMethod === "Active" && sortOrder === "desc" && (
+                  <i className="fas fa-caret-down ml-2"></i>
+                )}
+              </button>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {greekLifeList.map((club) => (
+            <tr key={club.id}>
+              <td>{club.name}</td>
+              <td>{club.size}</td>
+              <td>{club.desc}</td>
+              <td>{club.email}</td>
+              <td>{club.status ? "Yes" : "No"}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
-  );
+  </div>
+);
+
 }
 
 export default Organizations;

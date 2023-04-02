@@ -19,7 +19,7 @@ function Navbar() {
           </NavLink>
           <NavDropdown>
             <NavLink to="/Clubs">
-              Clubs <i className="fa fa-angle-down"></i>
+              Clubs▿ <i className="fa fa-angle-down"></i>
             </NavLink>
             <NavDropdownMenu>
               <NavLink to="/Search_Clubs">Search Clubs</NavLink>
@@ -28,7 +28,7 @@ function Navbar() {
           </NavDropdown>
           <NavDropdown>
             <NavLink to="/Organizations">
-              Organizations <i className="fa fa-angle-down"></i>
+              Organizations▿ <i className="fa fa-angle-down"></i>
             </NavLink>
             <NavDropdownMenu>
               <NavLink to="/Search_Organizations">Search Organizations</NavLink>
