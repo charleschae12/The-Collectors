@@ -22,13 +22,19 @@ function Navbar() {
               Clubs <i className="fa fa-angle-down"></i>
             </NavLink>
             <NavDropdownMenu>
-              <NavLink to="/Search_Clubs">Search Club</NavLink>
-              <NavLink to="/Manage_Clubs">Manage Club</NavLink>
+              <NavLink to="/Search_Clubs">Search Clubs</NavLink>
+              <NavLink to="/Manage_Clubs">Manage Clubs</NavLink>
             </NavDropdownMenu>
           </NavDropdown>
-          <NavLink to="/GreekLife">
-            Greek Life
-          </NavLink>
+          <NavDropdown>
+            <NavLink to="/Organizations">
+              Organizations <i className="fa fa-angle-down"></i>
+            </NavLink>
+            <NavDropdownMenu>
+              <NavLink to="/Search_Organizations">Search Organizations</NavLink>
+              <NavLink to="/Manage_Organizations">Manage Organizations</NavLink>
+            </NavDropdownMenu>
+          </NavDropdown>
           <NavLink to="/Events">
             Events
           </NavLink>

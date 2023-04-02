@@ -11,8 +11,9 @@ import Events from "./pages/Events";
 import Calendar from "./pages/Calendar";
 import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
-import GreekLife from './pages/GreekLife';
-
+import Organizations from './pages/Organizations';
+import Manage_Organizations from './pages/Manage_Organizations';
+import Search_Organizations from './pages/Search_Organizations';
 
 function App() {
   return (
@@ -23,7 +24,9 @@ function App() {
         <Route path="/Clubs" element={<Clubs />}/>
         <Route path="/Manage_Clubs" element={<Manage_Clubs />}/>
         <Route path="/Search_Clubs" element={<Search_Clubs />}/>
-        <Route path="/GreekLife" element={<GreekLife />}/>
+        <Route path="/Organizations" element={<Organizations />}/>
+        <Route path="/Manage_Organizations" element={<Manage_Organizations />}/>
+        <Route path="/Search_Organizations" element={<Search_Organizations />}/>
         <Route path="/Events" element={<Events />}/>
         <Route path="/Calendar" element={<Calendar />}/>
         <Route path="/Login" element={<Login />}/>

@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import GreekLifeView from '../components/GreekLifeView';
 
 
-function GreekLife() {
+function Organizations() {
 
   const [sortOrder, setSortOrder] = useState('asc');
   const [sortMethod, setSortMethod] = useState('name');
@@ -132,4 +132,4 @@ function GreekLife() {
   );
 }
 
-export default GreekLife;
+export default Organizations;
