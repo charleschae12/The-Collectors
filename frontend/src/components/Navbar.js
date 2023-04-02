@@ -6,7 +6,8 @@ import logo from './Logo.png';
 
 function Navbar() {
   let location = useLocation();
-  if (location.pathname !== "/Login"){
+
+  if (location.pathname !== "/Login") {
     return (
       <Nav>
         <NavMenu>
@@ -16,12 +17,24 @@ function Navbar() {
           <NavLink to="/">
             Home
           </NavLink>
-          <NavLink to="/Clubs">
-            Clubs
-          </NavLink>
-          <NavLink to="/GreekLife">
-            Greek Life
-          </NavLink>
+          <NavDropdown>
+            <NavLink to="/Clubs">
+              Clubs▿ <i className="fa fa-angle-down"></i>
+            </NavLink>
+            <NavDropdownMenu>
+              <NavLink to="/Search_Clubs">Search Clubs</NavLink>
+              <NavLink to="/Manage_Clubs">Manage Clubs</NavLink>
+            </NavDropdownMenu>
+          </NavDropdown>
+          <NavDropdown>
+            <NavLink to="/Organizations">
+              Organizations▿ <i className="fa fa-angle-down"></i>
+            </NavLink>
+            <NavDropdownMenu>
+              <NavLink to="/Search_Organizations">Search Organizations</NavLink>
+              <NavLink to="/Manage_Organizations">Manage Organizations</NavLink>
+            </NavDropdownMenu>
+          </NavDropdown>
           <NavLink to="/Events">
             Events
           </NavLink>
@@ -33,22 +46,52 @@ function Navbar() {
           <NavBtnLink to='/Login'>Sign In</NavBtnLink>
         </NavBtn>
       </Nav>
-    )
+    );
   }
 }
-
 
 export default Navbar;
 
 //  >>styles are written here<<
 
+const NavDropdown = styled.div`
+  position: relative;
+  display: inline-block;
+`;
+
+const NavDropdownMenu = styled.div`
+  position: absolute;
+  z-index: 1;
+  display: none;
+  min-width: 160px;
+  padding: 8px 0;
+  background-color: #000020;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  & a {
+    color: #f0f0f0;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+    &:hover {
+      background-color: #e0e0e0;
+      color: #2020ff;
+    }
+  }
+  ${NavDropdown}:hover & {
+    display: block;
+  }
+`;
+
 export const Nav = styled.nav`
-  position: fixed;
+  position: sticky;
+  top: 0;
   background: #000020;
   height: 70px;
   display: flex;
   width: 100%;
   justify-content: space-between;
+  z-index: 1;
 `;
 
 export const NavMenu = styled.div`

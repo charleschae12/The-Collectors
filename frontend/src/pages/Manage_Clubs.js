@@ -2,14 +2,14 @@ import '../App.css';
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import GreekLifeView from '../components/GreekLifeView';
+import ClubsView from '../components/ClubsView';
 
 
-function GreekLife() {
+function Manage_Clubs(props) {
 
   const [sortOrder, setSortOrder] = useState('asc');
   const [sortMethod, setSortMethod] = useState('name');
-  const [greekLifeList, setgreekLifeList] = useState([])
+  const [clubList, setClubList] = useState([])
   const [name, setName] = useState('')
   const [desc, setDesc] = useState('')
   const [size, setSize] = useState(0)
@@ -26,7 +26,7 @@ function GreekLife() {
 
   // Read all clubss
   useEffect(() => {
-    axios.get('http://localhost:8000/api/orgs')
+    axios.get('http://localhost:8000/api/clubs')
       .then(res => {
         if (selectedTag !== '') {
           setFilteredData(res.data.filter(club => club.tags.includes(selectedTag)));
@@ -80,22 +80,22 @@ function GreekLife() {
           }
         });
         setTagList(uniqueItems);
-        setgreekLifeList(sortedData);
+        setClubList(sortedData);
       })
       .catch(error => console.log(error));
   }, [sortOrder, sortMethod, selectedTag, filteredData, refreshPage]);
   
   // Post a club
   const addClubsHandler = () => {
-    axios.post('http://localhost:8000/api/orgs', { 'name': name, 'description': desc, 'size': size, 'status': status, 'email': email, 'tags': []})
+    axios.post('http://localhost:8000/api/clubs', { 'name': name, 'description': desc, 'size': size, 'status': status, 'email': email, 'tags': []})
     .then(res => console.log(res))
   }
 
   return (
     <div className="App list-group-item justify-content-center align-items-center mx-auto" style={{"width":"800px", "paddingTop":"120px"}}>
-    <h1 className="card text-white bg-primary mb-1" styleName="max-width: 20rem;">Orginizations</h1>
+    <h1 className="card text-white bg-primary mb-1" styleName="max-width: 20rem;">CLUBS</h1>
     <div className="card-body">
-    <h5 className="card text-white bg-dark mb-3">Add a Orginization</h5>
+    <h5 className="card text-white bg-dark mb-3">Add a Club</h5>
     <form onSubmit={addClubsHandler}>
       <span className="card-text">
         <input type="text" className="mb-2 form-control nameIn" onChange={event => setName(event.target.value)} placeholder='Name'/>
@@ -103,7 +103,7 @@ function GreekLife() {
         <input type="number" className="mb-2 form-control sizeIn" onChange={event => setSize(event.target.value)} placeholder='0'/>
         <label> Active: <input type="checkbox" onChange={event => setStatus(event.target.checked)}/></label>
         <input type="text" className="mb-2 form-control emailIn" onChange={event => setEmail(event.target.value)} placeholder='Email'/>
-        <button className="btn btn-outline-primary mx-2 mb-3" style={{'borderRadius':'50px', "font-weight":"bold"}}>Add Orginization</button>
+        <button className="btn btn-outline-primary mx-2 mb-3" style={{'borderRadius':'50px', "font-weight":"bold"}}>Add Club</button>
       </span>
     </form>
 
@@ -125,11 +125,11 @@ function GreekLife() {
         </select>
       </span>
       <div>
-        <GreekLifeView greekLifeList={greekLifeList} />
+        <ClubsView clubList={clubList} />
       </div>
     </div>
     </div>
   );
 }
 
-export default GreekLife;
+export default Manage_Clubs;
