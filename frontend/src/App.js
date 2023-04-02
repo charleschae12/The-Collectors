@@ -4,6 +4,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Footer from "./components/Footer";
 import Clubs from "./pages/Clubs";
+import Manage_Clubs from "./pages/Manage_Clubs";
+import Search_Clubs from "./pages/Search_Clubs";
 import Home from "./pages/Home";
 import Events from "./pages/Events";
 import Calendar from "./pages/Calendar";
@@ -19,6 +21,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}/>
         <Route path="/Clubs" element={<Clubs />}/>
+        <Route path="/Manage_Clubs" element={<Manage_Clubs />}/>
+        <Route path="/Search_Clubs" element={<Search_Clubs />}/>
         <Route path="/GreekLife" element={<GreekLife />}/>
         <Route path="/Events" element={<Events />}/>
         <Route path="/Calendar" element={<Calendar />}/>
