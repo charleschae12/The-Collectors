@@ -1,8 +1,6 @@
 import ClubsItem from './Clubs'
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import styled from 'styled-components';
-import ReactDom from 'react-dom';
 
 function ClubCard({
   clubname,
