@@ -106,7 +106,7 @@ async def delete_org(name):
         return "Successfully deleted organization"
     raise HTTPException(404, f"There is no organization with the name {name}")
 
-@app.delete("/api/clubs/{name}")
+@app.delete("/api/events/{name}")
 async def delete_event(name):
     response = await remove_event(name)
     if response:
