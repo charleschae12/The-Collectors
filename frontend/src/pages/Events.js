@@ -3,6 +3,9 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import EventsView from '../components/EventsView';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import moment from "moment-timezone";
 
 function Events() {
 
@@ -100,7 +103,7 @@ function Events() {
 
   // Post a club
   const addEventsHandler = () => {
-    axios.post('http://localhost:8000/api/events', { 'clubName': clubName, 'name': name, 'description': desc, 'date': date})
+    axios.post('http://localhost:8000/api/events', { 'clubName': clubName, 'name': name, 'description': desc, 'date': moment(date).tz("America/New_York").format("YYYY-MM-DDTHH:mm:ssZ")})
     .then(res => console.log(res))
   }
 
@@ -187,10 +190,10 @@ function Events() {
     <h5 className="card text-white bg-dark mb-3">Add an Event</h5>
     <form onSubmit={addEventsHandler}>
       <span className="card-text">
-        <input type="text" className="mb-2 form-control nameIn" onChange={event => setName(event.target.value)} placeholder='Name'/>
-        <input type="text" className="mb-2 form-control nameIn" onChange={event => setClubName(event.target.value)} placeholder='Club Name'/>
+        <input type="text" className="mb-2 form-control nameIn" onChange={event => setClubName(event.target.value)} placeholder='Orginization Name'/>
+        <input type="text" className="mb-2 form-control nameIn" onChange={event => setName(event.target.value)} placeholder='Event Name'/>
         <input type="text" className="mb-2 form-control desIn" onChange={event => setDesc(event.target.value)} placeholder='Description'/>
-        <input type="text" className="mb-2 form-control sizeIn" onChange={event => setDate(event.target.value)} placeholder='mm/dd/yyyy'/>
+        <DatePicker selected={date} onChange={(date) => setDate(date)} showTimeSelect dateFormat="yyyy/MM/dd HH:mm:ss"/>
         <button className="btn btn-outline-primary mx-2 mb-3" style={{'borderRadius':'50px', "font-weight":"bold"}}>Add Event</button>
       </span>
     </form>
