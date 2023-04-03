@@ -8,6 +8,8 @@ import Manage_Clubs from "./pages/Manage_Clubs";
 import Search_Clubs from "./pages/Search_Clubs";
 import Home from "./pages/Home";
 import Events from "./pages/Events";
+import Search_Events from "./pages/Search_Events";
+import Manage_Events from "./pages/Manage_Events";
 import Calendar from "./pages/Calendar";
 import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
@@ -28,6 +30,8 @@ function App() {
         <Route path="/Manage_Organizations" element={<Manage_Organizations />}/>
         <Route path="/Search_Organizations" element={<Search_Organizations />}/>
         <Route path="/Events" element={<Events />}/>
+        <Route path="/Search_Events" element={<Search_Events />}/>
+        <Route path="/Manage_Events" element={<Manage_Events />}/>
         <Route path="/Calendar" element={<Calendar />}/>
         <Route path="/Login" element={<Login />}/>
       </Routes>

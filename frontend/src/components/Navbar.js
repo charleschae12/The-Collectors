@@ -35,9 +35,15 @@ function Navbar() {
               <NavLink to="/Manage_Organizations">Manage Organizations</NavLink>
             </NavDropdownMenu>
           </NavDropdown>
-          <NavLink to="/Events">
-            Events
-          </NavLink>
+          <NavDropdown>
+            <NavLink to="/Events">
+              Events▿ <i className="fa fa-angle-down"></i>
+            </NavLink>
+            <NavDropdownMenu>
+              <NavLink to="/Search_Events">Search Events</NavLink>
+              <NavLink to="/Manage_Events">Manage Events</NavLink>
+            </NavDropdownMenu>
+          </NavDropdown>
           <NavLink to="/Calendar">
             Calendar
           </NavLink>
