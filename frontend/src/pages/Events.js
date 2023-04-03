@@ -3,6 +3,9 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import EventsView from '../components/EventsView';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import moment from "moment-timezone";
 
 function Events() {
 
