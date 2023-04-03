@@ -3,6 +3,7 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ClubsView from '../components/ClubsView';
+import ClubsItem from '../components/Clubs';
 
 
 function Manage_Clubs(props) {
@@ -125,7 +126,7 @@ function Manage_Clubs(props) {
         </select>
       </span>
       <div>
-        <ClubsView clubList={clubList} />
+        {props.clubList.map(Clubs => <ClubsItem Clubs={Clubs} />)}
       </div>
     </div>
     </div>
