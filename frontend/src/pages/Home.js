@@ -4,7 +4,7 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ClubsView from '../components/ClubsView';
 import GreekLifeView from '../components/GreekLifeView';
-import Bgimg from './HD.png';
+import Bgimg from './Main_page.png';
 import SearchBar from '../components/SearchBar';
 import ClubList from '../components/Clubs';
 
