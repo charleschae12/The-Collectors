@@ -193,7 +193,9 @@ function ClubsView(){
         justifyContent: "center"
       }}
     >
-      <li>
+      <li style={{
+        listStyle: "none",
+      }}>
         {list.map(it => (
           <ul style={{
             margin: 30,
