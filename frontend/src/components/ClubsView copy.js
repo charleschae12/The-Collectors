@@ -1,6 +1,7 @@
 import ClubsItem from './Clubs'
+import React, {useState, useEffect} from 'react';
 
-function ClubsView(){
+function ClubsView(props){
 
   return (
     <div>
