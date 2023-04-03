@@ -2,13 +2,13 @@ import '../App.css';
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ClubsView from '../components/ClubsView';
+import GreekLifeView from '../components/GreekLifeView';
 
-function Clubs() {
+function Organizations() {
 
   const [sortOrder, setSortOrder] = useState('asc');
   const [sortMethod, setSortMethod] = useState('name');
-  const [clubList, setClubList] = useState([])
+  const [greekLifeList, setgreekLifeList] = useState([])
   const [selectedTag, setSelectedTag] = useState('');
   const [tagList, setTagList] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -19,7 +19,7 @@ function Clubs() {
 
   // Read all clubs
   useEffect(() => {
-    axios.get('http://localhost:8000/api/clubs')
+    axios.get('http://localhost:8000/api/orgs')
       .then(res => {
         if (selectedTag !== '') {
           setFilteredData(res.data.filter(club => club.tags.includes(selectedTag)));
@@ -73,7 +73,7 @@ function Clubs() {
           }
         });
         setTagList(uniqueItems);
-        setClubList(sortedData);
+        setgreekLifeList(sortedData);
       })
       .catch(error => console.log(error));
   }, [sortOrder, sortMethod, selectedTag, filteredData, refreshPage]);
@@ -176,7 +176,7 @@ function Clubs() {
           </tr>
         </thead>
         <tbody>
-          {clubList.map((club) => (
+          {greekLifeList.map((club) => (
             <tr key={club.id}>
               <td>{club.name}</td>
               <td>{club.size}</td>
@@ -193,4 +193,4 @@ function Clubs() {
 
 }
 
-export default Clubs;
+export default Organizations;
