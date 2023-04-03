@@ -195,11 +195,16 @@ function ClubsView(){
         justifyContent: "center"
       }}
     >
-      {list.map(it => (
-        <li style={{ margin: 30 }}>
-          <ClubCard clubname={it} />
-        </li>
-      ))}
+      <li>
+        {list.map(it => (
+          <ul style={{
+            margin: 30,
+            listStyle: "none",
+          }}>
+            <ClubCard clubname={it} />
+          </ul>
+        ))}
+      </li>
       <style>
         {`
         @import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
