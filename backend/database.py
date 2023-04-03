@@ -53,7 +53,7 @@ async def create_club(club, create_org = False):
     return club
 
 async def create_event(event):
-    await clubs_collection.insert_one(event)
+    await events_collection.insert_one(event)
     return event
 
 async def update_club(name, desc, size, status, email, update_org = False):
