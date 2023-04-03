@@ -16,9 +16,9 @@ function ClubCard({
       className="card-business"
       style={{
         background: "#fff",
-        width: "45vw",
+        width: "42vw",
         borderRadius: "5px",
-        margin: "10px",
+        margin: "5px",
         boxShadow: shadow !== false ? "#9E9E9E 0px 0px 10px" : "",
         ...style
       }}
@@ -27,7 +27,7 @@ function ClubCard({
       <div
         style={{
           background: headerBg,
-          height: "30px",
+          height: "35px",
           paddingTop: "5px",
           paddingBottom: "5px",
           position: "relative",
@@ -39,7 +39,7 @@ function ClubCard({
         {/*https://pbs.twimg.com/profile_images/1215572708336865280/_8lVTX2z_400x400.jpg*/}
         <h1
           style={{
-            fontSize: "14pt",
+            fontSize: "16pt",
             margin: 0,
             marginLeft: 80,
             color: headerColor,
@@ -50,23 +50,27 @@ function ClubCard({
         </h1>
       </div>
       <table className="table table-striped table-hover" style={{
-        fontSize: '10pt',
+        fontSize: '12pt',
         listStyle: 'none',
-        lineHeight: '10pt',
+        lineHeight: '15pt',
         marginLeft: '80px',
         marginTop: '5px',
         textAlign: 'left',
-        width: '90%',
+        width: '87%',
       }}>
         <tr style={{
           paddingTop: "5px",
         }}>
-          <th> Memebers: </th>
-          <td> {clubname.size} </td>
+          <th style={{
+            width: '80pt',
+          }}> Memebers: </th>
+          <td style={{
+            width: '40pt',
+          }}> {clubname.size} </td>
           <td rowspan = "2" style={{
             borderLeft: "1px solid #aaaaaa",
             paddingLeft: "10px"
-          }}> {clubname.desc} </td>
+          }}> {clubname.description} </td>
         </tr>
         <tr style={{
           paddingBottom: "5px",
@@ -80,7 +84,7 @@ function ClubCard({
           paddingBottom: "5px",
         }}>
           <th> Contact: </th>
-          <td colSpan="2"> {clubname.emails && clubname.emails}</td>
+          <td colSpan="2"> {clubname.email && clubname.email}</td>
         </tr>
         <tr style={{
           borderTop: "1px solid #aaaaaa",
@@ -115,7 +119,7 @@ function ClubsView(){
   const [filteredData, setFilteredData] = useState([]);
 
   function refreshPage() {
-    window.emails.reload();
+    window.location.reload();
   } 
 
   // Read all clubs
@@ -190,15 +194,19 @@ function ClubsView(){
         height: "60vh",
         display: "flex",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        width: "100%"
       }}
     >
       <li style={{
         listStyle: "none",
+        alignContent: "center",
+        height: '100%',
+        width: '100%',
       }}>
         {list.map(it => (
           <ul style={{
-            margin: 30,
+            margin: 20,
             listStyle: "none",
           }}>
             <ClubCard clubname={it} />

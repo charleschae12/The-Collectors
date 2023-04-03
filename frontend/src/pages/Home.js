@@ -78,11 +78,13 @@ function Home() {
           height: '10px',
         }} />
         <div style={{
-          padding: '10px',
+          padding: '20px',
           backgroundColor: '#ffffffa0',
-          borderRadius: '25px',
-          width: '50vw',
+          borderRadius: '10px',
+          width: '100%',
           height: '65vh',
+          alignContent: 'top',
+          overflowY: 'auto',
         }}>
           <ClubsView clubList={clubList} />
           <GreekLifeView key={greekLifeList} greekLifeList={greekLifeList} />

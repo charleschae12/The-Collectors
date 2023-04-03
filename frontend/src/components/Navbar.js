@@ -90,7 +90,7 @@ const NavDropdownMenu = styled.div`
 `;
 
 export const Nav = styled.nav`
-  position: sticky;
+  position: absolute;
   top: 0;
   background: #000020;
   height: 70px;
