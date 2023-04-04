@@ -95,7 +95,7 @@ function Clubs() {
   }
 
   return (
-  <div className="container-fluid">
+  <div className="container-fluid" style={{paddingTop: "80px"}}>
     <div className="row mt-3 mb-3">
       <div className="col-md-2">
         <div className="form-group">
@@ -180,7 +180,7 @@ function Clubs() {
             <tr key={club.id}>
               <td>{club.name}</td>
               <td>{club.size}</td>
-              <td>{club.desc}</td>
+              <td>{club.description}</td>
               <td>{club.email}</td>
               <td>{club.status ? "Yes" : "No"}</td>
             </tr>

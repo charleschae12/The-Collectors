@@ -76,7 +76,9 @@ function ClubCard({
           paddingBottom: "5px",
         }}>
           <th> Activated: </th>
-          <td> {clubname.status ? "Yes" : "No"} </td>
+          <td style={
+            clubname.status ? {color: 'green'} : {color: 'red'}
+          }> ● </td>
         </tr>
         <tr style={{
           borderTop: "1px solid #aaaaaa",

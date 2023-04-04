@@ -69,7 +69,7 @@ function Home() {
       <h1 styleName="max-width: 20rem;">HELLO AND WELCOME!</h1>
       <h6>FIND ALL RPI CLUBS AND ORGANIZATIONS HERE</h6>
       <div style={{
-        paddingTop: '5vh',
+        paddingTop: '2vh',
         justifyContent: 'center',
         alignContent: 'center',
       }}>
@@ -82,7 +82,7 @@ function Home() {
           backgroundColor: '#ffffffa0',
           borderRadius: '10px',
           width: '100%',
-          height: '65vh',
+          height: '67vh',
           alignContent: 'top',
           overflowY: 'auto',
         }}>
