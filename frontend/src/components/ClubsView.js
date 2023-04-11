@@ -1,7 +1,7 @@
 import ClubsItem from './Clubs'
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-
+/*
 function ClubCard({
   clubname,
   headerColor = "#fff",
@@ -36,7 +36,6 @@ function ClubCard({
           ...headerStyle
         }}
       >
-        {/*https://pbs.twimg.com/profile_images/1215572708336865280/_8lVTX2z_400x400.jpg*/}
         <h1
           style={{
             fontSize: "16pt",
@@ -110,6 +109,7 @@ function ClubCard({
     </div>
   );
 }
+*/
 
 function ClubsView(){
 
@@ -187,7 +187,6 @@ function ClubsView(){
       .catch(error => console.log(error));
   }, [sortOrder, sortMethod, selectedTag, filteredData, refreshPage]);
 
-  
   const list = clubList;
 
   return (
@@ -211,7 +210,7 @@ function ClubsView(){
             margin: 20,
             listStyle: "none",
           }}>
-            <ClubCard clubname={it} />
+            {/*<ClubCard clubname={it} />*/}
           </ul>
         ))}
       </li>
