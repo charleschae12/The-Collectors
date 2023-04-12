@@ -125,6 +125,7 @@ function Home() {
   const [clubList, setClubList] = useState([])
   const [greekLifeList, setgreekLifeList] = useState([])
   const [keyword, setKeyword] = useState('')
+  const [filtered, setFiltered] = useState([])
 
   // search function
   const updateKey = (searchWord) => {
@@ -141,12 +142,10 @@ function Home() {
 
   useEffect(() => {
     if (keyword === null || keyword === ''){
-      axios.get('http://localhost:8000/api/clubsorgs').then(res =>{
-        setClubList(res.data)
-      })
+      setFiltered(clubList)
     }else{
       const filteredData = clubList.filter((club) => `${club.name.toLowerCase()} ${club.description.toLowerCase()} ${club.tags.toLowerCase}`.includes(keyword.toLowerCase()))
-      setClubList(filteredData)
+      setFiltered(filteredData)
     }
   }, [keyword, updateKey]);
 
@@ -185,7 +184,7 @@ function Home() {
           alignContent: 'top',
           overflowY: 'auto',
         }}>
-          {clubList.map(it => (
+          {filtered.map(it => (
           <ul style={{
             margin: 20,
             listStyle: "none",
