@@ -22,6 +22,7 @@ function Navbar() {
               Clubs▿ <i className="fa fa-angle-down"></i>
             </NavLink>
             <NavDropdownMenu>
+              <NavLink to="/Clubs">Club List</NavLink>
               <NavLink to="/Search_Clubs">Search Clubs</NavLink>
               <NavLink to="/Manage_Clubs">Manage Clubs</NavLink>
             </NavDropdownMenu>
@@ -30,7 +31,10 @@ function Navbar() {
             <NavLink to="/Organizations">
               Organizations▿ <i className="fa fa-angle-down"></i>
             </NavLink>
-            <NavDropdownMenu>
+            <NavDropdownMenu style={{
+              minWidth: '200px'
+            }}>
+              <NavLink to="/Organizations">Organization List</NavLink>
               <NavLink to="/Search_Organizations">Search Organizations</NavLink>
               <NavLink to="/Manage_Organizations">Manage Organizations</NavLink>
             </NavDropdownMenu>
@@ -69,7 +73,7 @@ const NavDropdownMenu = styled.div`
   position: absolute;
   z-index: 1;
   display: none;
-  min-width: 160px;
+  min-width: 150px;
   padding: 8px 0;
   background-color: #000020;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
@@ -90,7 +94,7 @@ const NavDropdownMenu = styled.div`
 `;
 
 export const Nav = styled.nav`
-  position: sticky;
+  position: absolute;
   top: 0;
   background: #000020;
   height: 70px;

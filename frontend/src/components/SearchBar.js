@@ -11,7 +11,10 @@ const SearchBar = ({keyword, onChange}) => {
             border: 'none',
             height: '60px',
             textAlign: 'left',
-        }}/>
+        }}
+            value = {keyword}
+            onChange = {(e) => onChange(e.target.value)}
+        />
     );
 }
 
