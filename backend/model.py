@@ -1,18 +1,19 @@
-from pydantic import BaseModel
 from typing import List, Optional
 from datetime import datetime
+from pydantic import BaseModel
 
 class Club(BaseModel):
-  name: str
-  description: str
-  email: str
-  status: bool
-  size: int
-  tags: Optional[List[str]] = None
+    """Hold information about clubs or organizations."""
+    name: str
+    description: str
+    email: str
+    status: bool
+    size: int
+    tags: Optional[List[str]] = None
 
 class Event(BaseModel):
-  clubName: str
-  name: str
-  description: str
-  date: datetime
-  
+    """Hold Information about events."""
+    clubName: str
+    name: str
+    description: str
+    date: datetime
