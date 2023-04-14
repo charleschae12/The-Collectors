@@ -19,8 +19,8 @@ import Search_Organizations from './pages/Search_Organizations';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Navbar />
+    <BrowserRouter>{/*Route (Link) tool that will spread through out to our websites*/}
+      <Navbar />{/* Navigation Bar will always on top of every page. */}
       <Routes>
         <Route path="/" element={<Home />}/>
         <Route path="/Clubs" element={<Clubs />}/>

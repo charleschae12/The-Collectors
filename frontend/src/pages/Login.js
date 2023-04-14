@@ -4,6 +4,10 @@ import Bgimg from './BG.png';
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 
+/**
+ * 
+ * Log in page for user, please make this simple as possible.
+ */
 function Login(){
     return(
         <div style={{

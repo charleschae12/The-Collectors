@@ -5,9 +5,9 @@ import styled from 'styled-components';
 import logo from './Logo.png';
 
 function Navbar() {
-  let location = useLocation();
+  let location = useLocation(); {/* getting the current location */}
 
-  if (location.pathname !== "/Login") {
+  if (location.pathname !== "/Login") { {/* In login page, the navbar will disappear */}
     return (
       <Nav>
         <NavMenu>
