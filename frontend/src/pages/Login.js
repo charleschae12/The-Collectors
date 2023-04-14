@@ -1,118 +1,58 @@
-import React from 'react';
-import '../App.css'
-import Bgimg from './BG.png';
-import styled from 'styled-components';
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import './Login.css';
+//Import logo
+import logo from '../components/Logo.png'; 
+//Import background image
+import backgroundImage from './login.png'; 
 
-function Login(){
-    return(
-        <div style={{
-            backgroundImage: `url(${Bgimg})`,
-            backgroundRepeat: 'repeat',
-            backgroundPosition: 'center',
-            width: '100vw',
-            height: '100vh',
-            textAlign: 'center',
-        }}>
-            <div className="App justify-content-center align-items-center mx-auto" style={{
-                width: '500px',
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: '140px 5px 5px 5px',
-            }}>
-                <div style={{
-                    display: 'flex',
-                    backgroundColor: '#202060',
-                    height: '80px',
-                    color: 'white',
-                    fontSize: '45px',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: '10px',
-                }}>
-                    Login
-                </div>
-                <div style={{
-                    padding: '10px 0px 0px 0px',
-                }}>
-                    <div style={{
-                        display: 'flex',
-                        backgroundColor: '#ffffff90',
-                        height: '90px',
-                        width: '100%',
-                        borderRadius: '10px',
-                        alignContent: 'right',
-                        alignItems: 'right',
-                    }}>
-                        <div style={{
-                            width: '70%',
-                            padding: '10px 10px 5px 5px',
-                        }}>
-                            <label style={{
-                                width: '15%',
-                            }}>ID :&nbsp;</label>
-                            <input type='text' id='id' style={{
-                                width: '85%',
-                            }}>
-                            </input>
-                            <div style={{
-                                height: '10px',
-                            }}></div>
-                            <label style={{
-                                width: '15%',
-                            }}>PW :&nbsp;</label>
-                            <input type='password' style={{
-                                width: '85%',
-                            }}>
-                            </input>
-                        </div>
-                        <div style={{
-                            padding: '10px 30px 10px 10px',
-                            width: '30%',
-                        }}>
-                            <button style={{
-                                backgroundColor: 'cyan',
-                                width: '100%',
-                                height: '70px',
-                                borderRadius: '15px',
-                            }}>
-                                Log in
-                            </button>
-                        </div>
-                    </div>
-                    <div style={{
-                        display: 'flex',
-                    }}>
-                        <HomeLink style={{
-                            width: '50%',
-                            justifyContent: 'center',
-                        }}>
-                            &#9626; Register
-                        </HomeLink>
-                        <HomeLink to="/" style={{
-                            width: '50%',
-                            justifyContent: 'center',
-                        }}>
-                            &#8635; Back to home
-                        </HomeLink>
-                    </div>
-                </div>
-            </div>
+const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Perform authentication and redirect to the main page
+    console.log('Email:', email, 'Password:', password);
+  };
+
+  return (
+    // Add the background
+    <div className="login-page-wrapper" style={{ backgroundImage: `url(${backgroundImage})` }}>
+      <div className="container">
+        <div className="header">
+          <Link to="/" className="header-link">
+            <img src={logo} alt="The Collectors Logo" className="logo" />
+            <span className="header-text">The Collectors</span>
+          </Link>
         </div>
-    );
-}
+        <form onSubmit={handleSubmit}>
+          <div className="input-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="input-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit">Log In</button>
+        </form>
+        <Link to="/" className="back-button">Back</Link>
+      </div>
+    </div>
+  );
+};
 
 export default Login;
-
-export const HomeLink = styled(Link)`
-  color: #f0f0f0;
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  padding: 0 1rem;
-  height: 100%;
-  cursor: pointer;
-  &.active {
-    color: #000000;
-  }
-`;

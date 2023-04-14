@@ -53,7 +53,7 @@ function Navbar() {
           </NavLink>
         </NavMenu>
         <NavBtn>
-          <NavBtnLink to='/Login'>Sign In</NavBtnLink>
+          <NavBtnLink to='/Login'>Login</NavBtnLink>
         </NavBtn>
       </Nav>
     );
