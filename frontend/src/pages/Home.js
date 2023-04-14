@@ -2,7 +2,6 @@ import '../App.css';
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ClubsView from '../components/ClubsView';
 import GreekLifeView from '../components/GreekLifeView';
 import Bgimg from './Main_page.png';
 import SearchBar from '../components/SearchBar';
@@ -71,6 +70,7 @@ function ClubCard({
           }}> Memebers: </th>
           <td style={{
             width: '40pt',
+            height: '17pt',
           }}> {clubname.size} </td>
           <td rowspan = "2" style={{
             borderLeft: "1px solid #aaaaaa",
@@ -80,9 +80,11 @@ function ClubCard({
         <tr style={{
           paddingBottom: "5px",
         }}>
-          <th> Activated: </th>
+          <th style={{
+            verticalAlign: "top",
+          }}> Activated: </th>
           <td style={
-            clubname.status ? {color: 'green'} : {color: 'red'}
+            clubname.status ? {verticalAlign: "top", color: 'green'} : {verticalAlign: "top", color: 'red'}
           }> ● </td>
         </tr>
         <tr style={{
@@ -90,7 +92,9 @@ function ClubCard({
           paddingTop: "5px",
           paddingBottom: "5px",
         }}>
-          <th> Contact: </th>
+          <th style={{
+            height: '17pt',
+          }}> Contact: </th>
           <td colSpan="2"> {clubname.email && clubname.email}</td>
         </tr>
         <tr style={{
@@ -98,7 +102,9 @@ function ClubCard({
           paddingTop: "5px",
           paddingBottom: "15px",
         }}>
-          <th> tags: </th>
+          <th style={{
+            height: '17pt',
+          }}> tags: </th>
           <td colSpan="2"> {clubname.tags && clubname.tags.length > 0 && (
             <li style={{
               padding: 0,
@@ -136,7 +142,10 @@ function Home() {
   useEffect(() => {
     axios.get('http://localhost:8000/api/clubsorgs')
       .then(res => {
-        setClubList(res.data)
+        const sortedData = res.data.sort((a, b) => {
+          return a.name.localeCompare(b.name);
+        });
+        setClubList(sortedData);
       })
   },[refreshPage]);
 
@@ -144,7 +153,7 @@ function Home() {
     if (keyword === null || keyword === ''){
       setFiltered(clubList)
     }else{
-      const filteredData = clubList.filter((club) => `${club.name.toLowerCase()} ${club.description.toLowerCase()} ${club.tags.toLowerCase}`.includes(keyword.toLowerCase()))
+      const filteredData = clubList.filter((club) => `${club.name.toLowerCase()} ${club.description.toLowerCase()} ${club.tags}`.includes(keyword.toLowerCase()))
       setFiltered(filteredData)
     }
   }, [keyword, updateKey]);
