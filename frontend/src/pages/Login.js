@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Login.css';
-//Import logo
-import logo from '../components/Logo.png'; 
-//Import background image
-import backgroundImage from './login.png'; 
+import logo from '../components/Logo.png';
+import backgroundImage from '../image/login.png';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -12,14 +10,12 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Perform authentication and redirect to the main page
     console.log('Email:', email, 'Password:', password);
   };
 
   return (
-    // Add the background
     <div className="login-page-wrapper" style={{ backgroundImage: `url(${backgroundImage})` }}>
-      <div className="container">
+      <div className="login-container">
         <div className="header">
           <Link to="/" className="header-link">
             <img src={logo} alt="The Collectors Logo" className="logo" />
@@ -49,6 +45,11 @@ const Login = () => {
           </div>
           <button type="submit">Log In</button>
         </form>
+        <Link to="/Register">
+          <button className="register-button">
+            Register
+          </button>
+        </Link>
         <Link to="/" className="back-button">Back</Link>
       </div>
     </div>

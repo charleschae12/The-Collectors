@@ -7,6 +7,10 @@ import logo from './Logo.png';
 function Navbar() {
   let location = useLocation();
 
+  if (location.pathname === "/Login" || location.pathname === "/Register") {
+    return null;
+  }
+
   if (location.pathname !== "/Login") {
     return (
       <Nav>
