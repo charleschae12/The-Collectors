@@ -1,16 +1,22 @@
+from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
 from database import *
+from model import LoginInput
 
 app = FastAPI()
 
-origins = ['http://localhost:3000']
+origins = [
+    "http://localhost:3000",  # Allow the React frontend to communicate with the API
+]
 
-app.add_middleware(CORSMiddleware,
-                    allow_origins=origins,
-                    allow_credentials = True,
-                    allow_methods=["*"],
-                    allow_headers=["*"],
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,  
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 @app.get("/")
@@ -160,3 +166,38 @@ async def delete_org_tag(name: str, tag: str):
     if response:
         return response
     raise HTTPException(404, f"There is no organization with the name {name}")
+
+# GET one user
+@app.get("/api/users/{rcsid}", response_model=User)
+async def get_user_by_rcsid(rcsid: str):
+    response = await fetch_one_user(rcsid)
+    if response:
+        return response
+    raise HTTPException(404, f"There is no user with the RCSID {rcsid}")
+
+# POST (create) a user
+@app.post("/api/register", response_model=User)
+async def register_user(user: User):
+    existing_user = await fetch_one_user(user.rcsid)
+    if existing_user:
+        raise HTTPException(400, f"User with RCSID {user.rcsid} already exists")
+    response = await create_user(user.dict())
+    if response:
+        return response
+    raise HTTPException(400, "Something went wrong when registering a user")
+
+async def authenticate_user(email: str, password: str):
+    user = await fetch_one_user(email)
+    if not user:
+        return None
+    if not verify_password(password, user["password"]):
+        return None
+    return user
+
+@app.post("/api/login")
+async def login(login_input: LoginInput):
+    user = await authenticate_user(login_input.email, login_input.password)
+    if user is None:
+        raise HTTPException(status_code=401, detail="Incorrect email or password")
+
+    return {"user": login_input.email, "role": "admin"}

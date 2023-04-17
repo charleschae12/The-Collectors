@@ -12,8 +12,23 @@ class Club(BaseModel):
     tags: Optional[List[str]] = None
 
 class Event(BaseModel):
-    """Hold Information about events."""
-    clubName: str
-    name: str
-    description: str
-    date: datetime
+"""Hold Information about events."""
+  clubName: str
+  name: str
+  description: str
+  date: datetime
+  
+class User(BaseModel):
+"""Hold Information about Users."""
+  rcsid: str
+  email: str
+  password: str
+  major: Optional[str] = ""
+  graduate_year: Optional[str] = ""
+  description: Optional[str] = ""
+  discode: Optional[str] = ""
+
+class LoginInput(BaseModel):
+"""Hold Information about email verification."""
+  email: str
+  password: str
