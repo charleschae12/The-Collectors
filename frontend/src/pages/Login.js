@@ -87,7 +87,6 @@ const Login = () => {
             Register
           </button>
         </Link>
-        <Link to="/" className="back-button">Back</Link>
       </div>
     </div>
   );
