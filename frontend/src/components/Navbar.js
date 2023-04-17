@@ -6,7 +6,7 @@ import logo from './Logo.png';
 import { AuthContext, useAuth } from '../components/AuthContext';
 
 function Navbar() {
-  let location = useLocation();
+  let location = useLocation(); {/* getting the current location */}
   const navigate = useNavigate();
   const { authData, setAuthData } = useAuth();
 
@@ -19,7 +19,8 @@ function Navbar() {
     return null;
   }
 
-  if (location.pathname !== "/Login") {
+
+  if (location.pathname !== "/Login") { {/* In login page, the navbar will disappear */}
     return (
       <Nav>
         <NavMenu>

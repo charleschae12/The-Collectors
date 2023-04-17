@@ -4,6 +4,9 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ClubsView from '../components/ClubsView';
 
+/**
+ * This page will show the list of clubs by table, and support various ways of sorting, filtering.
+ */
 function Clubs() {
 
   const [sortOrder, setSortOrder] = useState('asc');
@@ -13,11 +16,12 @@ function Clubs() {
   const [tagList, setTagList] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
 
+  // Refreshing the page
   function refreshPage() {
     window.location.reload();
   } 
 
-  // Read all clubs
+  // Read all clubs, filter it, then sort it.
   useEffect(() => {
     axios.get('http://localhost:8000/api/clubs')
       .then(res => {
@@ -78,18 +82,22 @@ function Clubs() {
       .catch(error => console.log(error));
   }, [sortOrder, sortMethod, selectedTag, filteredData, refreshPage]);
 
+  // When sorting method has changed
   const handleSortMethodChange = (e) => {
     setSortMethod(e.target.value);
   }
 
+  // When sorting order (ascending or descending) has changed
   const handleSortOrderChange = (e) => {
     setSortOrder(e.target.value);
   }
 
+  // When tag filter has changed
   const handleTagFilter = (tag) => {
     setSelectedTag(tag);
   }
 
+  // When tag is set as 'default' or 'none'
   const clearTagFilter = () => {
     setSelectedTag('');
   }
@@ -106,7 +114,7 @@ function Clubs() {
             value={selectedTag}
             onChange={(e) => setSelectedTag(e.target.value)}
           >
-            <option value="">All</option>
+            <option value="">All</option> {/** get all tags from existing clubs, then show it on the dropdown menu */}
             {tagList.map((tag, index) => (
               <option key={index} value={tag}>
                 {tag}

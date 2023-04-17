@@ -24,7 +24,7 @@ function Search_Clubs(props) {
     window.location.reload();
   } 
 
-  // Read all clubss
+  // Read all clubs, then filter it, then sort it.
   useEffect(() => {
     axios.get('http://localhost:8000/api/clubs')
       .then(res => {
@@ -109,7 +109,7 @@ function Search_Clubs(props) {
 
       <h5 className="card text-white bg-dark mb-3">Clubs:</h5>
       <span>
-        <select value={sortMethod} onChange={(event) => setSortMethod(event.target.value)}>
+        <select value={sortMethod} onChange={(event) => setSortMethod(event.target.value)}> {/** Saving sort types here */}
           <option value="nameAsc">Sort by name asc</option>
           <option value="nameDesc">Sort by name desc</option>
           <option value="sizeAsc">Sort by size asc</option>
@@ -117,7 +117,7 @@ function Search_Clubs(props) {
           <option value="Active">Sort by Active</option>
           <option value="Inactive">Sort by Inactive</option>
         </select>
-        <select value={selectedTag} onChange={(event) => setSelectedTag(event.target.value)}>
+        <select value={selectedTag} onChange={(event) => setSelectedTag(event.target.value)}> {/** Saving tag here */}
           <option value="">All tags</option>
           {tagList.map(tag => (
             <option key={tag} value={tag}>{tag}</option>

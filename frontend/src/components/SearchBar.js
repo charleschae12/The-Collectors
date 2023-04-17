@@ -1,3 +1,5 @@
+//Search Bar is a tool for creating right design that holds input text for searching.
+
 const SearchBar = ({keyword, onChange}) => {
     return (
         <input
