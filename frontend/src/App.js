@@ -13,9 +13,11 @@ import Manage_Events from "./pages/Manage_Events";
 import Calendar from "./pages/Calendar";
 import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 import Organizations from './pages/Organizations';
 import Manage_Organizations from './pages/Manage_Organizations';
 import Search_Organizations from './pages/Search_Organizations';
+import Manager from "./pages/Manager";
 
 function App() {
   return (
@@ -34,6 +36,8 @@ function App() {
         <Route path="/Manage_Events" element={<Manage_Events />}/>
         <Route path="/Calendar" element={<Calendar />}/>
         <Route path="/Login" element={<Login />}/>
+        <Route path="/Register" element={<Register />}/>
+        <Route path="/Manager" element={<Manager />}/>
       </Routes>
     </BrowserRouter>
   );
