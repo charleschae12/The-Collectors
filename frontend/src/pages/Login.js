@@ -5,6 +5,7 @@ import logo from '../components/Logo.png';
 import backgroundImage from '../image/login.png';
 import axios from 'axios';
 import { useAuth } from '../components/AuthContext';
+import { useUser } from '../components/UserContext';
 
 const Login = () => {
   // Declare state variables for user input
@@ -14,6 +15,8 @@ const Login = () => {
   const [error, setError] = useState('');
   // Get setAuthData function from the AuthContext
   const { setAuthData } = useAuth();
+  // Get setUser function from the UserContext
+  const { setUser } = useUser();
   // Declare navigate function for routing
   const navigate = useNavigate();
 
@@ -42,6 +45,7 @@ const Login = () => {
 
       // Store user data and redirect to the main application page
       setAuthData({ isLoggedIn: true, data: response.data });
+      setUser({ email: response.data.email }); // Set the user's email
       navigate('/');
 
     } catch (error) {

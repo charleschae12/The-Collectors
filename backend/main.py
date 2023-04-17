@@ -214,3 +214,17 @@ async def get_club_by_name(name: str):
     else:
         raise HTTPException(status_code=404, detail="Club not found")
 
+@app.get("/api/profile/{email}", response_model=User)
+async def get_user_profile(email: str):
+    response = await fetch_one_user_by_email(email)
+    if response:
+        return response
+    raise HTTPException(404, f"There is no user with the email {email}")
+
+@app.put("/api/profile/{email}/", response_model=User)
+async def update_user_profile(email: str, major: Optional[str], graduate_year: Optional[str], discord: Optional[str]):
+    response = await update_user(email, major, graduate_year, discord)
+    if response:
+        return response
+    raise HTTPException(404, f"There is no user with the email {email}")
+
