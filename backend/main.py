@@ -160,3 +160,7 @@ async def delete_org_tag(name: str, tag: str):
     if response:
         return response
     raise HTTPException(404, f"There is no organization with the name {name}")
+
+@app.post("/api/register")
+async def register(userName:str, displayName:str, password:str):
+    return {"message": "User registered successfully"}

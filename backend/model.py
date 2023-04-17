@@ -17,3 +17,9 @@ class Event(BaseModel):
     name: str
     description: str
     date: datetime
+
+class UserAccount(BaseModel):
+  """ User account information """
+  userName: str
+  displayName: str
+  password: str
