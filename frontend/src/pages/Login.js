@@ -87,12 +87,14 @@ function Login(){
                     <div style={{
                         display: 'flex',
                     }}>
-                        <HomeLink style={{
+                        <Link to="/Register" style={{
                             width: '50%',
                             justifyContent: 'center',
+                            color: 'white',
                         }}>
-                            &#9626; Register
-                        </HomeLink>
+                        &#9626; Register
+                        </Link>
+                        
                         <HomeLink to="/" style={{
                             width: '50%',
                             justifyContent: 'center',

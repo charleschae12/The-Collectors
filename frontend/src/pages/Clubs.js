@@ -4,6 +4,38 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ClubsView from '../components/ClubsView';
 
+const input = document.querySelector("input[type=file]");
+const output = document.querySelector("output");
+let imagesArray = [];
+
+/** function to load image as an input */
+function loadImages(event) {
+  const file = event.target.files[0]
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = function() {
+      imagesArray.push(reader.result)
+      displayImages()
+    }
+}
+
+/** function to display image */
+function displayImages() {
+  let images = ""
+  imagesArray.forEach((image, index) => {
+    images += `<div class="image">
+                <img src="${image}" alt="image">
+                <span onclick="deleteImage(${index})">&times;</span>
+              </div>`
+  })
+  output.innerHTML = images
+}
+
+function deleteImage(index) {
+  imagesArray.splice(index, 1)
+  displayImages()
+}
+
 /**
  * This page will show the list of clubs by table, and support various ways of sorting, filtering.
  */
@@ -124,6 +156,7 @@ function Clubs() {
         </div>
       </div>
     </div>
+
     <div className="table-responsive">
       <table className="table table-striped table-hover">
         <thead>
@@ -180,6 +213,16 @@ function Clubs() {
                   <i className="fas fa-caret-down ml-2"></i>
                 )}
               </button>
+            </th>
+            <th>
+            Edit Club Avatar
+            <form action="/upload-image" method="post" enctype="multipart/form-data">
+              <input 
+              type="file" 
+              name="image"
+              onChange={(event) => loadImages(event)}/>
+            </form>
+
             </th>
           </tr>
         </thead>
