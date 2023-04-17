@@ -18,7 +18,6 @@ import Manage_Organizations from './pages/Manage_Organizations';
 import ClubPersonal from './pages/ClubPersonal';
 import Profile from './pages/Profile';
 import { UserProvider } from './components/UserContext';
-import { AuthProvider } from './components/AuthContext';
 
 
 function App() {
