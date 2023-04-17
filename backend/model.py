@@ -16,3 +16,11 @@ class Event(BaseModel):
   description: str
   date: datetime
   
+class User(BaseModel):
+  rcsid: str
+  email: str
+  password: str
+  major: Optional[str] = ""
+  graduate_year: Optional[str] = ""
+  description: Optional[str] = ""
+  discode: Optional[str] = ""

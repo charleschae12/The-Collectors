@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Register.css';
 import logo from '../components/Logo.png';
 import backgroundImage from '../image/Register.png';
+import axios from 'axios';
 
 const Register = () => {
   const [email, setEmail] = useState('');
@@ -10,8 +11,9 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [rcsid, setRcsid] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (rcsid.match(/^\d/)) { // check if rcsid starts with a number
@@ -35,6 +37,26 @@ const Register = () => {
     }
 
     console.log('Email:', email, 'Confirm Email:', confirmEmail, 'Password:', password, 'Confirm Password:', confirmPassword, 'RCSID:', rcsid);
+
+    try {
+      const response = await axios.post("http://localhost:8000/api/register", {
+        rcsid,
+        email,
+        password,
+      });
+
+      if (response.status === 200) {
+        // Show a success message or redirect to the login page
+        alert("Registration successful! Please log in.");
+        navigate('/login');
+      } else {
+        // Handle registration error
+        alert("Registration failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error during registration:", error);
+    }
+
   };
 
 

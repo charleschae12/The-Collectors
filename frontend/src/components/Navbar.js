@@ -1,11 +1,19 @@
-import React from 'react';
-import { Link, useLocation } from "react-router-dom";
+import React, { useContext } from 'react';
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import '../App.css';
 import styled from 'styled-components';
 import logo from './Logo.png';
+import { AuthContext, useAuth } from '../components/AuthContext';
 
 function Navbar() {
   let location = useLocation();
+  const navigate = useNavigate();
+  const { authData, setAuthData } = useAuth();
+
+  const handleLogout = () => {
+    setAuthData({ isLoggedIn: false, data: null });
+    navigate('/');
+  };
 
   if (location.pathname === "/Login" || location.pathname === "/Register") {
     return null;
@@ -57,7 +65,11 @@ function Navbar() {
           </NavLink>
         </NavMenu>
         <NavBtn>
-          <NavBtnLink to='/Login'>Login</NavBtnLink>
+          {authData && authData.isLoggedIn ? (
+            <NavBtnLink onClick={handleLogout}>Logout</NavBtnLink>
+          ) : (
+            <NavBtnLink to="/Login">Login</NavBtnLink>
+          )}
         </NavBtn>
       </Nav>
     );
@@ -66,7 +78,7 @@ function Navbar() {
 
 export default Navbar;
 
-//  >>styles are written here<<
+// >>styles are written here<<
 
 const NavDropdown = styled.div`
   position: relative;

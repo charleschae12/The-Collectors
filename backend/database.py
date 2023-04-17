@@ -1,6 +1,7 @@
 import motor.motor_asyncio
 from fastapi import FastAPI
 from model import *
+from fastapi import Depends
 
 app = FastAPI()
 
@@ -11,6 +12,7 @@ database = client.TheCollectors
 clubs_collection = database.Clubs
 orgs_collection = database.Organizations
 events_collection = database.Events
+users_collection = database.Users
 
 async def fetch_one_club(name, find_org = False):
     """Return the specified club or organization in the database."""
@@ -103,3 +105,30 @@ async def remove_tag(name, tag, org_tag = False):
         await clubs_collection.update_one({"name": name}, {"$pull": {"tags": tag}})
         document = await clubs_collection.find_one({"name": name})
     return document
+
+async def fetch_one_user(email: str):
+    # Asynchronously find and retrieve a single user document from a MongoDB collection by email.
+    document = await users_collection.find_one({"email": email})
+    return document
+
+async def create_user(user):
+    # Asynchronously insert a new user document into a MongoDB collection.
+    await users_collection.insert_one(user)
+    return user
+
+async def fetch_one_user_by_email(email: str):
+    print(f"Fetching user with email: {email}")
+    try:
+        document = await users_collection.find_one({"email": email})
+        if not document:
+            print(f"No user found with email: {email}")
+            return None
+        print(f"Retrieved document: {document}")
+        return document
+    except Exception as e:
+        print(f"Error fetching user with email {email}: {e}")
+        return None
+
+def verify_password(plain_password, stored_password):
+    return plain_password == stored_password
+
