@@ -126,3 +126,18 @@ async def fetch_one_user(email: str):
     # Asynchronously find and retrieve a single user document from a MongoDB collection by email.
     document = await users_collection.find_one({"email": email})
     return document
+
+async def fetch_one_user_by_email(email: str):
+    """Asynchronously find and retrieve a single user document from a MongoDB collection by email."""
+    document = await users_collection.find_one({"email": email})
+    return document
+
+async def update_user(email: str, major: str, graduate_year: str, discord: str):
+    """Update a specified user's profile in the database."""
+    await users_collection.update_one({"email": email},
+                                      {"$set": {"major": major,
+                                                "graduate_year": graduate_year,
+                                                "discord": discord}})
+    document = await users_collection.find_one({"email": email})
+    return document
+

@@ -19,7 +19,6 @@ function Navbar() {
     return null;
   }
 
-
   if (location.pathname !== "/Login") { {/* In login page, the navbar will disappear */}
     return (
       <Nav>
@@ -65,7 +64,10 @@ function Navbar() {
         </NavMenu>
         <NavBtn>
           {authData && authData.isLoggedIn ? (
-            <NavBtnLink onClick={handleLogout}>Logout</NavBtnLink>
+            <>
+              <NavBtnLink to="/Profile">Profile</NavBtnLink>
+              <NavBtnLink onClick={handleLogout}>Logout</NavBtnLink>
+            </>
           ) : (
             <NavBtnLink to="/Login">Login</NavBtnLink>
           )}

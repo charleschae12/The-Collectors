@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from database import *
 from model import LoginInput
+from typing import Optional
 
 app = FastAPI()
 
@@ -203,4 +204,27 @@ async def login(login_input: LoginInput):
     if user is None:
         raise HTTPException(status_code=401, detail="Incorrect email or password")
     return {"user": login_input.email, "role": "admin"}
+
+# fetching clubs by their name
+@app.get("/api/clubs/name/{name}")
+async def get_club_by_name(name: str):
+    club = await fetch_one_club(name)
+    if club:
+        return Club(**club)
+    else:
+        raise HTTPException(status_code=404, detail="Club not found")
+
+@app.get("/api/profile/{email}", response_model=User)
+async def get_user_profile(email: str):
+    response = await fetch_one_user_by_email(email)
+    if response:
+        return response
+    raise HTTPException(404, f"There is no user with the email {email}")
+
+@app.put("/api/profile/{email}/", response_model=User)
+async def update_user_profile(email: str, major: Optional[str], graduate_year: Optional[str], discord: Optional[str]):
+    response = await update_user(email, major, graduate_year, discord)
+    if response:
+        return response
+    raise HTTPException(404, f"There is no user with the email {email}")
 

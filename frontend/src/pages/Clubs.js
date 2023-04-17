@@ -6,6 +6,7 @@ import ClubsView from '../components/ClubsView';
 import Bgimg from './Main_page.png';
 import SearchBar from '../components/SearchBar';
 import ClubCard from '../components/ClubCard';
+import { Link, useNavigate } from 'react-router-dom';
 
 /**
  * This page will show the list of clubs by table, and support various ways of sorting, filtering.
@@ -26,6 +27,18 @@ function Clubs() {
   const [filteredData, setFilteredData] = useState([]);
   const [keyword, setKeyword] = useState('')
   const [filtered, setFiltered] = useState([])
+  const navigate = useNavigate();
+
+  // takes the club ID as an argument and navigates to the personalized club page
+  const handleClubClick = (name) => {
+    axios.get(`http://localhost:8000/api/clubs/${name}`)
+      .then(res => {
+        // You can set the fetched club data to the state or directly navigate to the club page with the fetched data
+        navigate(`/club/${name}`);
+      })
+      .catch(error => console.log(error));
+  };
+
 
   // set the keyword as the word we got from searchbar
   const updateKey = (searchWord) => {
@@ -246,7 +259,11 @@ function Clubs() {
           </thead>
           <tbody>
             {filtered.map((club) => (
-              <tr key={club.id}>
+              <tr
+                key={club.name}
+                onClick={() => handleClubClick(club.name)}
+                style={{ cursor: "pointer" }}
+              >
                 <td>{club.name}</td>
                 <td>{club.size}</td>
                 <td>{club.description}</td>

@@ -26,7 +26,7 @@ class User(BaseModel):
   major: Optional[str] = ""
   graduate_year: Optional[str] = ""
   description: Optional[str] = ""
-  discode: Optional[str] = ""
+  discord: Optional[str] = ""
 
 class LoginInput(BaseModel):
   """Hold Information about email verification."""
