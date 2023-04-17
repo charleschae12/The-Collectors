@@ -78,7 +78,7 @@ function Home() {
           backgroundColor: '#ffffffa0',
           borderRadius: '10px',
           width: '100%',
-          height: '67vh',
+          height: '55vh',
           alignContent: 'top',
           overflowY: 'auto',
         }}>
