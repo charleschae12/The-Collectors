@@ -17,6 +17,7 @@ import Organizations from './pages/Organizations';
 import Manage_Organizations from './pages/Manage_Organizations';
 import ClubPersonal from './pages/ClubPersonal';
 import Profile from './pages/Profile';
+import ProfileEdit from './pages/ProfileEdit';
 import { UserProvider } from './components/UserContext';
 
 
@@ -39,6 +40,7 @@ function App() {
             <Route path="/Login" element={<Login />}/>
             <Route path="/Register" element={<Register />}/>
             <Route path="/Profile" element={<Profile />}/>
+            <Route path="/profile-edit" element={<ProfileEdit />} />
             <Route path="/clubs/:name" element={<ClubPersonal />}/>
           </Routes>
         <Navbar />
