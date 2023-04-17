@@ -23,7 +23,7 @@ const Login = () => {
   // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Email:', email, 'Password:', password);
+    //console.log('Email:', email, 'Password:', password);
 
     // Validate input fields
     if (!email || !password) {
@@ -45,7 +45,8 @@ const Login = () => {
 
       // Store user data and redirect to the main application page
       setAuthData({ isLoggedIn: true, data: response.data });
-      setUser({ email: response.data.email }); // Set the user's email
+      //console.log(response.data);
+      setUser({ email: email }); // Set the user's email
       navigate('/');
 
     } catch (error) {
@@ -104,8 +105,6 @@ const Login = () => {
             Register
           </button>
         </Link>
-        {/* Link to the main application page */}
-        <Link to="/" className="back-button">Back</Link>
       </div>
     </div>
   );

@@ -11,13 +11,15 @@ function Profile() {
   const [major, setMajor] = useState('');
   const [graduateYear, setGraduateYear] = useState('');
   const [discord, setDiscord] = useState('');
+  const [rcsid, setRcsid] = useState('');
 
   const { authData } = useAuth();
-  const { rcsid, email } = authData.data;
+  const email = authData.data.user;
 
   useEffect(() => {
     async function fetchUserProfile() {
-      const response = await axios.get(`/api/profile/${email}`);
+      const response = await axios.get(`http://localhost:8000/api/profile/${email}`);
+      setRcsid(response.data.rcsid);
       setUser(response.data);
       setMajor(response.data.major);
       setGraduateYear(response.data.graduate_year);
@@ -27,9 +29,9 @@ function Profile() {
   }, [email]);
 
   async function handleSubmit() {
-    await axios.put(`/api/profile/${email}`, { major, graduate_year: graduateYear, discord });
+    await axios.put(`http://localhost:8000/api/profile/${email}/?major=${major}&graduate_year=${graduateYear}&discord=${discord}`).then((res) => console.log(res.data));
     alert("Profile updated!");
-  }
+  };
 
   return (
     <div style={{
@@ -76,15 +78,15 @@ function Profile() {
           }}>
             <div>
               <label>Major:&nbsp;</label>
-              <input type='text' value={major} onChange={(e) => setMajor(e.target.value)} />
+              <input type='text' onChange={(e) => setMajor(e.target.value)} placeholder={major} />
             </div>
             <div>
               <label>Graduate Year:&nbsp;</label>
-              <input type='text' value={graduateYear} onChange={(e) => setGraduateYear(e.target.value)} />
+              <input type='text' onChange={(e) => setGraduateYear(e.target.value)} placeholder={graduateYear} />
             </div>
             <div>
               <label>Discord:&nbsp;</label>
-              <input type='text' value={discord} onChange={(e) => setDiscord(e.target.value)} />
+              <input type='text' onChange={(e) => setDiscord(e.target.value)} placeholder={discord}/>
             </div>
           </div>
           <div style={{

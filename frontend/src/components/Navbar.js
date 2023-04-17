@@ -7,19 +7,13 @@ import { AuthContext, useAuth } from '../components/AuthContext';
 
 function Navbar() {
   let location = useLocation(); {/* getting the current location */}
-  const navigate = useNavigate();
   const { authData, setAuthData } = useAuth();
 
   const handleLogout = () => {
     setAuthData({ isLoggedIn: false, data: null });
-    navigate('/');
   };
 
-  if (location.pathname === "/Login" || location.pathname === "/Register") {
-    return null;
-  }
-
-  if (location.pathname !== "/Login") { {/* In login page, the navbar will disappear */}
+  if (location.pathname !== "/Login" || location.pathname !== "/Register") { {/* In login page, the navbar will disappear */}
     return (
       <Nav>
         <NavMenu>
@@ -66,7 +60,7 @@ function Navbar() {
           {authData && authData.isLoggedIn ? (
             <>
               <NavBtnLink to="/Profile">Profile</NavBtnLink>
-              <NavBtnLink onClick={handleLogout}>Logout</NavBtnLink>
+              <NavBtnLink onClick={handleLogout} to="/">Logout</NavBtnLink>
             </>
           ) : (
             <NavBtnLink to="/Login">Login</NavBtnLink>
