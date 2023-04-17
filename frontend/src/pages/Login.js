@@ -1,16 +1,16 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 import logo from '../components/Logo.png';
 import backgroundImage from '../image/login.png';
 import axios from 'axios';
-import { AuthContext, useAuth } from '../components/AuthContext';
+import { useAuth } from '../components/AuthContext';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const { authData, setAuthData } = useAuth();
+  const { setAuthData } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -27,7 +27,10 @@ const Login = () => {
         email,
         password,
       }, {
-        withCredentials: true
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
 
       // Store user data and redirect to the main application page
@@ -43,7 +46,6 @@ const Login = () => {
       }
     }
   };
-
 
   return (
     <div className="login-page-wrapper" style={{ backgroundImage: `url(${backgroundImage})` }}>
@@ -61,6 +63,7 @@ const Login = () => {
             <input
               type="email"
               id="email"
+              name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -71,6 +74,7 @@ const Login = () => {
             <input
               type="password"
               id="password"
+              name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required

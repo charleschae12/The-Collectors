@@ -3,6 +3,7 @@ from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from database import *
+from model import LoginInput
 
 app = FastAPI()
 
@@ -148,7 +149,6 @@ async def delete_org_tag(name: str, tag: str):
         return response
     raise HTTPException(404, f"There is no organization with the name {name}")
 
-
 # GET one user
 @app.get("/api/users/{rcsid}", response_model=User)
 async def get_user_by_rcsid(rcsid: str):
@@ -169,20 +169,17 @@ async def register_user(user: User):
     raise HTTPException(400, "Something went wrong when registering a user")
 
 async def authenticate_user(email: str, password: str):
-    user = await fetch_one_user_by_email(email)
+    user = await fetch_one_user(email)
     if not user:
         return None
     if not verify_password(password, user["password"]):
-        raise HTTPException(status_code=401, detail="Incorrect email or password")
+        return None
     return user
 
 @app.post("/api/login")
-async def login(credentials: HTTPBasicCredentials = Depends(HTTPBasic())):
-    email = credentials.username
-    password = credentials.password
-
-    user = await authenticate_user(email, password)
+async def login(login_input: LoginInput):
+    user = await authenticate_user(login_input.email, login_input.password)
     if user is None:
-        raise HTTPException(status_code=400, detail="Incorrect email or password")
+        raise HTTPException(status_code=401, detail="Incorrect email or password")
 
-    return {"user": email, "role": "admin"}
+    return {"user": login_input.email, "role": "admin"}

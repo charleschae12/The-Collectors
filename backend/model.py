@@ -24,3 +24,7 @@ class User(BaseModel):
   graduate_year: Optional[str] = ""
   description: Optional[str] = ""
   discode: Optional[str] = ""
+
+class LoginInput(BaseModel):
+  email: str
+  password: str
