@@ -36,7 +36,6 @@ function Navbar() {
             </NavLink>
             <NavDropdownMenu>
               <NavLink to="/Clubs">Club List</NavLink>
-              <NavLink to="/Search_Clubs">Search Clubs</NavLink>
               <NavLink to="/Manage_Clubs">Manage Clubs</NavLink>
             </NavDropdownMenu>
           </NavDropdown>
@@ -48,7 +47,6 @@ function Navbar() {
               minWidth: '200px'
             }}>
               <NavLink to="/Organizations">Organization List</NavLink>
-              <NavLink to="/Search_Organizations">Search Organizations</NavLink>
               <NavLink to="/Manage_Organizations">Manage Organizations</NavLink>
             </NavDropdownMenu>
           </NavDropdown>
