@@ -37,7 +37,9 @@ function Calendar() {
   };
 
   return (
-    <div className="container">
+    <div className="container" style={{
+      marginTop: '90px',
+    }}>
       <div className="row">
         <div className="col-md-12">
           <h1>{monthsOfYear[date.getMonth()]} {date.getFullYear()}</h1>

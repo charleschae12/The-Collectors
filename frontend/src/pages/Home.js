@@ -38,10 +38,10 @@ function Home() {
   useEffect(() => {
     if (keyword === null || keyword === ''){
       setFiltered(clubList)
-    }else{ {/**Filters data by input, for tags, add '#' infront of each tags so users can find only tags by '#' */}
+    }else{ /**Filters data by input, for tags, add '#' infront of each tags so users can find only tags by '#' */
       const filteredData = clubList.filter((club) =>
       `${club.name.toLowerCase()} ${club.description.toLowerCase()} ${club.tags.map((text) => (
-        `#${text}`
+        `#${text.toLowerCase()}`
       ))}`.includes(keyword.toLowerCase()))
       setFiltered(filteredData)
     }
