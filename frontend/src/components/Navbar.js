@@ -13,6 +13,10 @@ function Navbar() {
     setAuthData({ isLoggedIn: false, data: null });
   };
 
+  if (location.pathname === "/Login" || location.pathname === "/Register"){
+    return null;
+  }
+
   if (location.pathname !== "/Login" || location.pathname !== "/Register") { {/* In login page, the navbar will disappear */}
     return (
       <Nav>

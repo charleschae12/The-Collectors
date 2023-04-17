@@ -132,12 +132,13 @@ async def fetch_one_user_by_email(email: str):
     document = await users_collection.find_one({"email": email})
     return document
 
-async def update_user(email: str, major: str, graduate_year: str, discord: str):
+async def update_user(email: str, major: str, graduate_year: str, discord: str, description: str):
     """Update a specified user's profile in the database."""
     await users_collection.update_one({"email": email},
                                       {"$set": {"major": major,
                                                 "graduate_year": graduate_year,
-                                                "discord": discord}})
+                                                "discord": discord,
+                                                "description": description}})
     document = await users_collection.find_one({"email": email})
     return document
 
