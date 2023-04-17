@@ -6,16 +6,20 @@ import backgroundImage from '../image/Register.png';
 import axios from 'axios';
 
 const Register = () => {
+  // Declare state variables for user input
   const [email, setEmail] = useState('');
   const [confirmEmail, setConfirmEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [rcsid, setRcsid] = useState('');
+  // Declare navigate function for routing
   const navigate = useNavigate();
 
+  // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validate input fields
     if (rcsid.match(/^\d/)) { // check if rcsid starts with a number
       alert('RCSID cannot start with a number');
       return;
@@ -36,8 +40,10 @@ const Register = () => {
       return;
     }
 
+    // Log user input for debugging
     console.log('Email:', email, 'Confirm Email:', confirmEmail, 'Password:', password, 'Confirm Password:', confirmPassword, 'RCSID:', rcsid);
 
+    // Send data to the server
     try {
       const response = await axios.post("http://localhost:8000/api/register", {
         rcsid,
@@ -45,6 +51,7 @@ const Register = () => {
         password,
       });
 
+      // Handle server response
       if (response.status === 200) {
         // Show a success message or redirect to the login page
         alert("Registration successful! Please log in.");

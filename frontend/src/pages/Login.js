@@ -7,21 +7,28 @@ import axios from 'axios';
 import { useAuth } from '../components/AuthContext';
 
 const Login = () => {
+  // Declare state variables for user input
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  // Declare state variable for error handling
   const [error, setError] = useState('');
+  // Get setAuthData function from the AuthContext
   const { setAuthData } = useAuth();
+  // Declare navigate function for routing
   const navigate = useNavigate();
 
+  // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Email:', email, 'Password:', password);
 
+    // Validate input fields
     if (!email || !password) {
       setError("Email and password fields are required");
       return;
     }
 
+    // Send data to the server
     try {
       const response = await axios.post("http://localhost:8000/api/login", {
         email,
@@ -39,6 +46,7 @@ const Login = () => {
 
     } catch (error) {
       console.error("Error during login:", error);
+      // Handle login error
       if (error.response && error.response.status === 400) {
         setError("Incorrect email or password");
       } else {
@@ -47,6 +55,7 @@ const Login = () => {
     }
   };
 
+  // Render the login form
   return (
     <div className="login-page-wrapper" style={{ backgroundImage: `url(${backgroundImage})` }}>
       <div className="login-container">
@@ -56,8 +65,10 @@ const Login = () => {
             <span className="header-text">The Collectors</span>
           </Link>
         </div>
+        {/* Display error message */}
         {error && <div className="error-message">{error}</div>}
         <form onSubmit={handleSubmit}>
+          {/* Email input field */}
           <div className="input-group">
             <label htmlFor="email">Email</label>
             <input
@@ -69,6 +80,7 @@ const Login = () => {
               required
             />
           </div>
+          {/* Password input field */}
           <div className="input-group">
             <label htmlFor="password">Password</label>
             <input
@@ -82,11 +94,13 @@ const Login = () => {
           </div>
           <button type="submit">Log In</button>
         </form>
+        {/* Link to the registration page */}
         <Link to="/Register">
           <button className="register-button">
             Register
           </button>
         </Link>
+        {/* Link to the main application page */}
         <Link to="/" className="back-button">Back</Link>
       </div>
     </div>

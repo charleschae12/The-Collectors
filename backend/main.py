@@ -186,6 +186,8 @@ async def register_user(user: User):
         return response
     raise HTTPException(400, "Something went wrong when registering a user")
 
+# This function authenticates the user by fetching their data from the database
+# using their email address, and verifying their password.
 async def authenticate_user(email: str, password: str):
     user = await fetch_one_user(email)
     if not user:
@@ -194,10 +196,11 @@ async def authenticate_user(email: str, password: str):
         return None
     return user
 
+# This route handles user logins.
 @app.post("/api/login")
 async def login(login_input: LoginInput):
     user = await authenticate_user(login_input.email, login_input.password)
     if user is None:
         raise HTTPException(status_code=401, detail="Incorrect email or password")
-
     return {"user": login_input.email, "role": "admin"}
+
