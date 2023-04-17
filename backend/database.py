@@ -126,3 +126,5 @@ async def fetch_one_user(email: str):
     # Asynchronously find and retrieve a single user document from a MongoDB collection by email.
     document = await users_collection.find_one({"email": email})
     return document
+
+

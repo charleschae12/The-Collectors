@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from database import *
 from model import LoginInput
+from typing import Optional
 
 app = FastAPI()
 
@@ -203,4 +204,13 @@ async def login(login_input: LoginInput):
     if user is None:
         raise HTTPException(status_code=401, detail="Incorrect email or password")
     return {"user": login_input.email, "role": "admin"}
+
+# fetching clubs by their name
+@app.get("/api/clubs/name/{name}")
+async def get_club_by_name(name: str):
+    club = await fetch_one_club(name)
+    if club:
+        return Club(**club)
+    else:
+        raise HTTPException(status_code=404, detail="Club not found")
 

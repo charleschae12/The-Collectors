@@ -1,6 +1,6 @@
-  import './App.css';
+import './App.css';
 import React, {useState, useEffect} from 'react';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Switch } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Footer from "./components/Footer";
 import Clubs from "./pages/Clubs";
@@ -15,6 +15,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Organizations from './pages/Organizations';
 import Manage_Organizations from './pages/Manage_Organizations';
+import ClubPersonal from './pages/ClubPersonal';
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
           <Route path="/Calendar" element={<Calendar />}/>
           <Route path="/Login" element={<Login />}/>
           <Route path="/Register" element={<Register />}/>
+          <Route path="/clubs/:name" element={<ClubPersonal />}/>
         </Routes>
       <Navbar />
     </BrowserRouter>
