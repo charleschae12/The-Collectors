@@ -34,7 +34,7 @@ function Clubs() {
     axios.get(`http://localhost:8000/api/clubs/${name}`)
       .then(res => {
         // You can set the fetched club data to the state or directly navigate to the club page with the fetched data
-        navigate(`/club/${name}`);
+        navigate(`/clubpage/${name}`);
       })
       .catch(error => console.log(error));
   };

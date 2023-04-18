@@ -20,7 +20,9 @@ function ClubPersonal() {
   }, [name]);
 
   return (
-    <div className="container">
+    <div className="container" style={{
+      marginTop: '90px',
+    }}>
       <h2>{club.name}</h2>
       <p>Members: {club.size}</p>
       <p>Description: {club.description}</p>
