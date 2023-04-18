@@ -15,7 +15,7 @@ origins = [
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credentials=True,  
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -171,6 +171,7 @@ async def delete_org_tag(name: str, tag: str):
 # GET one user
 @app.get("/api/users/{rcsid}", response_model=User)
 async def get_user_by_rcsid(rcsid: str):
+    """Returns the specified user info."""
     response = await fetch_one_user(rcsid)
     if response:
         return response
@@ -179,6 +180,7 @@ async def get_user_by_rcsid(rcsid: str):
 # POST (create) a user
 @app.post("/api/register", response_model=User)
 async def register_user(user: User):
+    """Register a new user."""
     existing_user = await fetch_one_user(user.rcsid)
     if existing_user:
         raise HTTPException(400, f"User with RCSID {user.rcsid} already exists")
@@ -187,9 +189,8 @@ async def register_user(user: User):
         return response
     raise HTTPException(400, "Something went wrong when registering a user")
 
-# This function authenticates the user by fetching their data from the database
-# using their email address, and verifying their password.
 async def authenticate_user(email: str, password: str):
+    """Fetch user data and verify passwords match."""
     user = await fetch_one_user(email)
     if not user:
         return None
@@ -200,12 +201,14 @@ async def authenticate_user(email: str, password: str):
 # This route handles user logins.
 @app.post("/api/login")
 async def login(login_input: LoginInput):
+    """Interface for login."""
     user = await authenticate_user(login_input.email, login_input.password)
     if user is None:
         raise HTTPException(status_code=401, detail="Incorrect email or password")
     return {"user": login_input.email, "role": "admin"}
 
 # fetching clubs by their name
+## can we double check why we need this again?
 @app.get("/api/clubs/name/{name}")
 async def get_club_by_name(name: str):
     club = await fetch_one_club(name)
@@ -216,6 +219,7 @@ async def get_club_by_name(name: str):
 
 @app.get("/api/profile/{email}", response_model=User)
 async def get_user_profile(email: str):
+    """Return specified user's profile."""
     response = await fetch_one_user_by_email(email)
     if response:
         return response
@@ -223,8 +227,8 @@ async def get_user_profile(email: str):
 
 @app.put("/api/profile/{email}/", response_model=User)
 async def update_user_profile(email: str, major: Optional[str], graduate_year: Optional[str], discord: Optional[str], description: Optional[str]):
+    """Update specified user's profile."""
     response = await update_user(email, major, graduate_year, discord, description)
     if response:
         return response
     raise HTTPException(404, f"There is no user with the email {email}")
-
