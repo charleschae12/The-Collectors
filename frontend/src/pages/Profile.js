@@ -1,123 +1,92 @@
 import React, { useState, useEffect } from 'react';
-import '../App.css';
-import Bgimg from './Main_page.png';
 import axios from 'axios';
-import styled from 'styled-components';
 import { Link } from "react-router-dom";
+import Bgimg from './Main_page.png';
+import { HomeLink } from './ProfileEdit';
 import { useAuth } from '../components/AuthContext';
+import styled from 'styled-components';
 
 function Profile() {
   const [user, setUser] = useState({});
-  const [major, setMajor] = useState('');
-  const [graduateYear, setGraduateYear] = useState('');
-  const [discord, setDiscord] = useState('');
-
+  const [rcsid, setRcsid] = useState('');
+  
   const { authData } = useAuth();
-  const { rcsid, email } = authData.data;
+  const email = authData.data.user;
 
   useEffect(() => {
     async function fetchUserProfile() {
-      const response = await axios.get(`/api/profile/${email}`);
+      const response = await axios.get(`http://localhost:8000/api/profile/${email}`);
+      setRcsid(response.data.rcsid);
       setUser(response.data);
-      setMajor(response.data.major);
-      setGraduateYear(response.data.graduate_year);
-      setDiscord(response.data.discord);
     }
     fetchUserProfile();
   }, [email]);
 
-  async function handleSubmit() {
-    await axios.put(`/api/profile/${email}`, { major, graduate_year: graduateYear, discord });
-    alert("Profile updated!");
-  }
-
   return (
-    <div style={{
-      backgroundImage: `url(${Bgimg})`,
-      backgroundRepeat: 'repeat',
-      backgroundPosition: 'center',
-      width: '100vw',
-      height: '100vh',
-      textAlign: 'center',
-    }}>
-      <div className="App justify-content-center align-items-center mx-auto" style={{
-        width: '500px',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: '140px 5px 5px 5px',
-      }}>
-        <div style={{
-          display: 'flex',
-          backgroundColor: '#202060',
-          height: '80px',
-          color: 'white',
-          fontSize: '45px',
-          justifyContent: 'center',
-          alignItems: 'center',
-          borderRadius: '10px',
-        }}>
-          Profile
-        </div>
-        <p>RCSID: {rcsid}</p>
-        <p>Email: {email}</p>
-        <div style={{
-          height: '250px',
-          padding: '10px 0px 0px 0px',
-        }}>
-          <div style={{
-            display: 'flex',
-            backgroundColor: '#ffffff90',
-            height: '180px',
-            width: '100%',
-            borderRadius: '10px',
-            flexDirection: 'column',
-            justifyContent: 'space-around',
-            padding: '10px',
-          }}>
-            <div>
-              <label>Major:&nbsp;</label>
-              <input type='text' value={major} onChange={(e) => setMajor(e.target.value)} />
-            </div>
-            <div>
-              <label>Graduate Year:&nbsp;</label>
-              <input type='text' value={graduateYear} onChange={(e) => setGraduateYear(e.target.value)} />
-            </div>
-            <div>
-              <label>Discord:&nbsp;</label>
-              <input type='text' value={discord} onChange={(e) => setDiscord(e.target.value)} />
-            </div>
-          </div>
-          <div style={{
-            display: 'flex',
-            justifyContent: 'space-around',
-            alignItems: 'center',
-            marginTop: '10px',
-          }}>
-            <button onClick={handleSubmit} style={{
-              backgroundColor: 'cyan',
-              width: '100px',
-              height: '50px',
-              borderRadius: '15px',
-              fontSize: '20px',
-            }}>
-              Save
-            </button>
-            <HomeLink to="/" style={{
-              width: '100px',
-              justifyContent: 'center',
-            }}>
-            Home
-            </HomeLink>
-          </div>
-        </div>
-      </div>
-    </div>
+    <ProfileContainer style={{ backgroundImage: `url(${Bgimg})` }}>
+      <ProfileCard className="App">
+        <ProfileHeader>Profile</ProfileHeader>
+        <UserInfo>
+          <p>RCSID: {rcsid}</p>
+          <p>Email: {email}</p>
+          <p>Major: {user.major}</p>
+          <p>Graduate Year: {user.graduate_year}</p>
+          <p>Discord: {user.discord}</p>
+          <p>Description: {user.description}</p>
+        </UserInfo>
+        <ButtonContainer>
+          <UpdateLink to="/profile-edit">Update</UpdateLink>
+          <HomeLink to="/">Home</HomeLink>
+        </ButtonContainer>
+      </ProfileCard>
+    </ProfileContainer>
   );
 }
 
 export default Profile;
 
-export const HomeLink = styled(Link)`
+// Styled components
+const ProfileContainer = styled.div`
+  background-repeat: repeat;
+  background-position: center;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ProfileCard = styled.div`
+  width: 500px;
+  background-color: #2066ED;
+  border-radius: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+`;
+
+const ProfileHeader = styled.h1`
+  color: white;
+  font-size: 45px;
+  margin: 0;
+  text-align: center;
+`;
+
+const UserInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+
+const UpdateLink = styled(Link)`
   color: #f0f0f0;
   display: flex;
   align-items: center;
@@ -125,8 +94,23 @@ export const HomeLink = styled(Link)`
   padding: 0 1rem;
   height: 100%;
   cursor: pointer;
-  
+  background-color: #202060;
+  width: 100px;
+  justify-content: center;
+  border-radius: 15px;
+  font-size: 20px;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: cyan;
+    color: #202060;
+  }
   &.active {
     color: #000000;
-  };
+  }
+  @media screen and (max-width: 500px) {
+    font-size: 16px;
+    width: 80px;
+    height: 40px;
+    border-radius: 10px;
+  }
 `;

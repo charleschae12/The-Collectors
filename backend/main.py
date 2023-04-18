@@ -226,9 +226,9 @@ async def get_user_profile(email: str):
     raise HTTPException(404, f"There is no user with the email {email}")
 
 @app.put("/api/profile/{email}/", response_model=User)
-async def update_user_profile(email: str, major: Optional[str], graduate_year: Optional[str], discord: Optional[str]):
+async def update_user_profile(email: str, major: Optional[str], graduate_year: Optional[str], discord: Optional[str], description: Optional[str]):
     """Update specified user's profile."""
-    response = await update_user(email, major, graduate_year, discord)
+    response = await update_user(email, major, graduate_year, discord, description)
     if response:
         return response
     raise HTTPException(404, f"There is no user with the email {email}")
