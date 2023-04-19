@@ -50,7 +50,7 @@ async def get_events():
     response = await fetch_all_events()
     return response
 
-# GET one club/organization
+# GET one club/organization/event
 @app.get("/api/clubs/{name}", response_model = Club)
 async def get_club_by_name(name):
     """Fetch specified club."""
@@ -66,6 +66,14 @@ async def get_org_by_name(name):
     if response:
         return response
     raise HTTPException(404, f"There is no organization with the name {name}")
+
+@app.get("/api/events/{clubname}")
+async def get_events_by_name(clubName):
+    """Fetch specified Event."""
+    response = await fetch_all_events_with_clubName(clubName)
+    if response:
+        return response
+    raise HTTPException(404, f"There is no club with the name {clubName}")
 
 # POST a club/organization/event
 @app.post("/api/clubs", response_model = Club)
