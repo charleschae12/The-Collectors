@@ -22,6 +22,14 @@ async def fetch_one_club(name, find_org = False):
         document = await clubs_collection.find_one({"name": name})
     return document
 
+async def fetch_all_events_with_clubName(clubName):
+    """Return the specified event in the database."""
+    cursor = events_collection.find({"clubName": clubName})
+    events = []
+    async for document in cursor:
+        events.append(Event(**document))
+    return events
+
 async def fetch_all_clubs(find_orgs = False):
     """Return a list of all clubs OR organizations in the database."""
     if find_orgs:

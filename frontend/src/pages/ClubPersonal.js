@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 
 function ClubPersonal() {
   const [club, setClub] = useState({});
+  const [events, setEvents] = useState([]);
   const { name } = useParams();
 
   useEffect(() => {
@@ -11,6 +12,8 @@ function ClubPersonal() {
       try {
         const response = await axios.get(`http://localhost:8000/api/clubs/${name}`);
         setClub(response.data);
+        const response2 = await axios.get(`http://localhost:8000/api/events/${name}?clubName=${name}`);
+        setEvents(response2.data);
       } catch (error) {
         console.error('Error fetching club data:', error);
       }
@@ -29,6 +32,10 @@ function ClubPersonal() {
       <p>Email: {club.email}</p>
       <p>Active: {club.status ? 'Yes' : 'No'}</p>
       <p>Tags: {club.tags && club.tags.join(', ')}</p>
+      <p>Events:</p>
+      {events.map((event) => (
+        <p>{event.name}</p>
+      ))}
     </div>
   );
 }
