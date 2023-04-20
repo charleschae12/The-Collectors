@@ -4,6 +4,8 @@
  * @effect For each variable that club have, it will format the data into a box, which looks similar with table.
  */
 
+import logo from './Logo.png';
+
 function ClubCard({
     clubname,
     headerColor = "#fff",
@@ -55,12 +57,24 @@ function ClubCard({
           fontSize: '12pt',
           listStyle: 'none',
           lineHeight: '15pt',
-          marginLeft: '80px',
+          marginLeft: '5px',
           marginTop: '5px',
           textAlign: 'left',
           width: '87%',
         }}>
-          <p>{clubname.image && <img style={{ width: `50px`, height: `50px` }} src={clubname.image} alt="uploaded image" />}</p>
+          <tr>
+            <td rowspan = "5" style={{
+              verticalAlign: 'top',
+            }}>
+              {clubname.image && <img style={{
+                width: `72px`,
+                height: `72px`,
+              }} src={clubname.image} alt="uploaded image" /> || !clubname.image && <img style = {{
+                width: '72px',
+                height: '72px',
+              }} src = {logo}/>}
+            </td>
+          </tr>
           <tr style={{
             paddingTop: "5px",
           }}>
@@ -110,7 +124,7 @@ function ClubCard({
                 margin: 0,
               }}>
                 {clubname.tags.map((text) => (
-                  <span style={{marginRight: 5}}> #{text} </span>
+                  <span style={{marginRight: 5}}> #{text.toUpperCase()} </span>
                 ))}
               </li>
             )}
