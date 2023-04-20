@@ -65,6 +65,7 @@ function ClubCard({
           <tr>
             <td rowspan = "5" style={{
               verticalAlign: 'top',
+              height: '100px',
             }}>
               {clubname.image && <img style={{
                 width: `72px`,
@@ -80,7 +81,7 @@ function ClubCard({
           }}>
             <th style={{
               width: '80pt',
-            }}> Memebers: </th>
+            }}> Members: </th>
             <td style={{
               width: '40pt',
               height: '17pt',
