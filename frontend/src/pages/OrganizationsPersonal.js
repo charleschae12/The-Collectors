@@ -50,7 +50,9 @@ function OrganizationsPersonal() {
           <p>{club.size}</p>
         </div>
       </div>
-      <div className={`${classes.subContainer} ${classes.description}`}>
+      <div className={`${classes.subContainer} ${classes.description}`} style={{
+        width: '100%',
+      }}>
         <h3 className={classes.clubInfo}>
           <RiQuillPenFill />
           Description
