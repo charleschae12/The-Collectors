@@ -16,6 +16,7 @@ function Manage_Events() {
   const [clubName, setClubName] = useState('')
   const [desc, setDesc] = useState('')
   const [date, setDate] = useState('')
+  const [image, setImage] = useState(null)
 
   function refreshPage() {
     window.location.reload();
@@ -82,9 +83,21 @@ function Manage_Events() {
       .catch(error => console.log(error));
   }, [sortOrder, sortMethod, selectedTag, filteredData, refreshPage]);
 
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      const image = event.target.result;
+      setImage(image);
+    };
+
+    reader.readAsDataURL(file);
+  };
+
   // Post a club
   const addEventsHandler = () => {
-    axios.post('http://localhost:8000/api/events', { 'clubName': clubName, 'name': name, 'description': desc, 'date': date})
+    axios.post('http://localhost:8000/api/events', { 'clubName': clubName, 'name': name, 'description': desc, 'date': date, 'image': image})
     .then(res => console.log(res))
   }
 
@@ -99,6 +112,7 @@ function Manage_Events() {
         <input type="text" className="mb-2 form-control nameIn" onChange={event => setClubName(event.target.value)} placeholder='Club Name'/>
         <input type="text" className="mb-2 form-control desIn" onChange={event => setDesc(event.target.value)} placeholder='Description'/>
         <input type="text" className="mb-2 form-control sizeIn" onChange={event => setDate(event.target.value)} placeholder='mm/dd/yyyy'/>
+        <input type="file" accept="image/*" onChange={handleImageChange} />
         <button className="btn btn-outline-primary mx-2 mb-3" style={{'borderRadius':'50px', "font-weight":"bold"}}>Add Event</button>
       </span>
     </form>

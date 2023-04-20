@@ -60,6 +60,7 @@ function ClubCard({
           textAlign: 'left',
           width: '87%',
         }}>
+          <p>{clubname.image && <img style={{ width: `50px`, height: `50px` }} src={clubname.image} alt="uploaded image" />}</p>
           <tr style={{
             paddingTop: "5px",
           }}>
