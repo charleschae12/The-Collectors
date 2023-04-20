@@ -1,5 +1,5 @@
 import '../App.css';
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ClubsView from '../components/ClubsView copy.js';
@@ -104,79 +104,157 @@ function Manage_Clubs(props) {
     .then(res => console.log(res))
   }
 
-  return (
-    <div className="container-fluid" style={{
-      paddingTop: "80px",
+return (
+  <div
+    className="container-fluid"
+    style={{
+      paddingTop: '80px',
       backgroundImage: `url(${BgImg})`,
       backgroundRepeat: 'repeat',
       backgroundPosition: 'center',
       width: '100vw',
-      height: '100hw',
-      }}
-    >
-      <div style={{
-        alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center',
-        backgroundColor: '#ffffffd0',
-        borderRadius: '10px',
-        width: '54vw',
-        margin: '0 auto',
-        left: '23%',
-      }}>
-        <div style={{
-          fontSize: '48px',
-          width: '50vw',
-          margin: '0 auto',
-        }}>Create New Club</div>
-        <form style={{
-          width: '50vw',
-          margin: '0 auto',
+      height: '100vh',
+    }}
+  >
+    <div className="row" style={{ marginLeft: '0', marginRight: '0' }}>
+      <div
+        className="col-lg-6 col-md-12"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',      
+          padding: '20px',
         }}
-        onSubmit={addClubsHandler}>
-          <span className="card-text">
-            <input type="text" className="mb-2 form-control nameIn" onChange={event => setName(event.target.value)} placeholder='Name'/>
-            <input type="text" className="mb-2 form-control desIn" onChange={event => setDesc(event.target.value)} placeholder='Description'/>
-            <input type="number" className="mb-2 form-control sizeIn" onChange={event => setSize(event.target.value)} placeholder='0'/>
-            <label> Active: <input type="checkbox" onChange={event => setStatus(event.target.checked)}/></label>
-            <input type="text" className="mb-2 form-control emailIn" onChange={event => setEmail(event.target.value)} placeholder='Email'/>
-            <input type="file" accept="image/*" onChange={handleImageChange} />
-            <button className="btn btn-outline-primary mx-2 mb-3" style={{'borderRadius':'50px', "font-weight":"bold"}}>Add Club</button>
-          </span>
-        </form>
+      >
+        <div
+          style={{
+            textAlign: 'center',
+            backgroundColor: '#ffffffd0',
+            borderRadius: '10px',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            width: '100%',
+            padding: '20px',
+            boxSizing: 'border-box',
+          }}
+        >
+          <div
+            style={{
+              fontSize: '36px',
+              fontWeight: 'bold',
+              marginBottom: '20px',
+            }}
+          >
+            Create New Club
+          </div>
+          <form onSubmit={addClubsHandler}>
+            <span className="card-text">
+              <input
+                type="text"
+                className="mb-2 form-control nameIn"
+                onChange={(event) => setName(event.target.value)}
+                placeholder="Name"
+              />
+              <input
+                type="text"
+                className="mb-2 form-control desIn"
+                onChange={(event) => setDesc(event.target.value)}
+                placeholder="Description"
+              />
+              <input
+                type="number"
+                className="mb-2 form-control sizeIn"
+                onChange={(event) => setSize(event.target.value)}
+                placeholder="0"
+              />
+              <label>
+                {' '}
+                Active:{' '}
+                <input
+                  type="checkbox"
+                  onChange={(event) => setStatus(event.target.checked)}
+                />
+              </label>
+              <input
+                type="text"
+                className="mb-2 form-control emailIn"
+                onChange={(event) => setEmail(event.target.value)}
+                placeholder="Email"
+              />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+              />
+              <button
+                className="btn btn-outline-primary mx-2 mb-3"
+                style={{
+                  borderRadius: '50px',
+                  fontWeight: 'bold',
+                }}
+              >
+                Add Club
+              </button>
+            </span>
+          </form>
+        </div>
       </div>
-      
-      <div className="card-body" style={{
-        width: '70vw',
-        margintop: '10px',
-        margin: '0 auto',
-        alignItems: 'center',
-        textAlign: 'center',
-      }}>
-
-        <h5 className="card text-white bg-dark mb-3">Your Clubs:</h5>
-        <span>
-          <select value={sortMethod} onChange={(event) => setSortMethod(event.target.value)}>
-            <option value="nameAsc">Sort by name asc</option>
-            <option value="nameDesc">Sort by name desc</option>
-            <option value="sizeAsc">Sort by size asc</option>
-            <option value="sizeDesc">Sort by size desc</option>
-            <option value="Active">Sort by Active</option>
-            <option value="Inactive">Sort by Inactive</option>
-          </select>
-          <select value={selectedTag} onChange={(event) => setSelectedTag(event.target.value)}>
-            <option value="">All tags</option>
-            {tagList.map(tag => (
-              <option key={tag} value={tag}>{tag}</option>
-            ))}
-          </select>
-        </span>
-        <div>
-          <ClubsView clubList={clubList} />
+      <div
+        className="col-lg-6 col-md-12"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '20px',
+        }}
+      >
+        <div
+          className="card-body"
+          style={{
+            width: '100%',
+            textAlign: 'center',
+            backgroundColor: '#ffffffd0',
+            borderRadius: '10px',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            padding: '20px',
+            boxSizing: 'border-box',
+            marginLeft: '0',
+          }}
+        >
+          <h5 className="card text-white bg-dark mb-3">Manage Clubs</h5>
+          <span>
+            <select
+              value={sortMethod}
+              onChange={(event) => setSortMethod(event.target.value)}
+            >
+                <option value="nameAsc">Sort by name asc</option>
+                <option value="nameDesc">Sort by name desc</option>
+                <option value="sizeAsc">Sort by size asc</option>
+                <option value="sizeDesc">Sort by size desc</option>
+                <option value="Active">Sort by Active</option>
+                <option value="Inactive">Sort by Inactive</option>
+            </select>
+            <select
+              value={selectedTag}
+              onChange={(event) => setSelectedTag(event.target.value)}
+            >
+                <option value="">All tags</option>
+                {tagList.map((tag) => (
+                  <option key={tag} value={tag}>
+                    {tag}
+                  </option>
+                ))}
+            </select>
+          </span>
+          <div style={{ maxHeight: '520px', overflowY: 'auto', maxWidth: '100%', width: '100%'  }}> 
+            <ClubsView clubList={clubList} />
+          </div>
+        </div>
         </div>
       </div>
     </div>
   );
 }
+
 
 export default Manage_Clubs;
