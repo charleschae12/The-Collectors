@@ -7,6 +7,7 @@ import Bgimg from './Main_page.png';
 import SearchBar from '../components/SearchBar';
 import ClubCard from '../components/ClubCard';
 import { Link, useNavigate } from 'react-router-dom';
+import logo from '../components/Logo.png';
 
 /**
  * This page will show the list of clubs by table, and support various ways of sorting, filtering.
@@ -116,6 +117,8 @@ function Clubs() {
             } else {
               return 1 || b.name.localeCompare(a.name);
             }
+          } else{
+            return a.name.localeCompare(b.name);
           }
         });
         const uniqueItems = [];
@@ -203,6 +206,9 @@ function Clubs() {
           <thead>
             <tr>
               <th>
+                
+              </th>
+              <th>
                 <button
                   type="button"
                   className="btn btn-link"
@@ -264,6 +270,13 @@ function Clubs() {
                 onClick={() => handleClubClick(club.name)}
                 style={{ cursor: "pointer" }}
               >
+                <td>{club.image && <img style={{
+                width: `72px`,
+                height: `72px`,
+              }} src={club.image} alt="uploaded image" /> || !club.image && <img style = {{
+                width: '72px',
+                height: '72px',
+              }} src = {logo}/>}</td>
                 <td>{club.name}</td>
                 <td>{club.size}</td>
                 <td>{club.description}</td>
