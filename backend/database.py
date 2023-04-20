@@ -1,16 +1,18 @@
 import motor.motor_asyncio
 from fastapi import FastAPI
-from model import Club, Event
+from model import *
+from fastapi import Depends
 
 app = FastAPI()
 
-client = motor.motor_asyncio.AsyncIOMotorClient('mongodb://localhost:27017/')
+client = motor.motor_asyncio.AsyncIOMotorClient('mongodb://localhost:27017')
 
 # Database collections
 database = client.TheCollectors
 clubs_collection = database.Clubs
 orgs_collection = database.Organizations
 events_collection = database.Events
+users_collection = database.Users
 
 async def fetch_one_club(name, find_org = False):
     """Return the specified club or organization in the database."""
@@ -19,6 +21,14 @@ async def fetch_one_club(name, find_org = False):
     else:
         document = await clubs_collection.find_one({"name": name})
     return document
+
+async def fetch_all_events_with_clubName(clubName):
+    """Return the specified event in the database."""
+    cursor = events_collection.find({"clubName": clubName})
+    events = []
+    async for document in cursor:
+        events.append(Event(**document))
+    return events
 
 async def fetch_all_clubs(find_orgs = False):
     """Return a list of all clubs OR organizations in the database."""
@@ -50,10 +60,10 @@ async def fetch_all_events():
         events.append(Event(**document))
     return events
 
-async def create_club(club, create_org = False):
+async def create_club(club, create_org = True):
     """Add a specified club or organization to the database."""
     if create_org:
-        await orgs_collection.insert_one(club)
+        await clubs_collection.insert_one(club)
     else:
         await clubs_collection.insert_one(club)
     return club
@@ -111,3 +121,32 @@ async def remove_tag(name, tag, org_tag = False):
         await clubs_collection.update_one({"name": name}, {"$pull": {"tags": tag}})
         document = await clubs_collection.find_one({"name": name})
     return document
+
+async def create_user(user):
+    # Asynchronously insert a new user document into a MongoDB collection.
+    await users_collection.insert_one(user)
+    return user
+
+def verify_password(plain_password, stored_password):
+    return plain_password == stored_password
+
+async def fetch_one_user(email: str):
+    # Asynchronously find and retrieve a single user document from a MongoDB collection by email.
+    document = await users_collection.find_one({"email": email})
+    return document
+
+async def fetch_one_user_by_email(email: str):
+    """Asynchronously find and retrieve a single user document from a MongoDB collection by email."""
+    document = await users_collection.find_one({"email": email})
+    return document
+
+async def update_user(email: str, major: str, graduate_year: str, discord: str, description: str):
+    """Update a specified user's profile in the database."""
+    await users_collection.update_one({"email": email},
+                                      {"$set": {"major": major,
+                                                "graduate_year": graduate_year,
+                                                "discord": discord,
+                                                "description": description}})
+    document = await users_collection.find_one({"email": email})
+    return document
+
