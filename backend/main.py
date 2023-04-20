@@ -104,7 +104,8 @@ async def post_event(club: Event):
 @app.put("/api/clubs/{name}/", response_model = Club)
 async def put_club(name: str, desc: str, size: int, status: bool, email: str, image: str):
     """Update a club."""
-    response = await update_club(name, desc, size, status, email, image)
+    refimage = image.replace(' ','+');
+    response = await update_club(name, desc, size, status, email, refimage)
     if response:
         return response
     raise HTTPException(404, f"There is no club with the name {name}")
