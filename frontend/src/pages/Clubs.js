@@ -51,7 +51,7 @@ function Clubs() {
     axios.get('http://localhost:8000/api/clubs')
       .then(res => {
         const sortedData = res.data.sort((a, b) => {
-          return a.name.strip().localeCompare(b.name.strip());
+          return a.name.localeCompare(b.name);
         });
         setClubList(sortedData);
       })

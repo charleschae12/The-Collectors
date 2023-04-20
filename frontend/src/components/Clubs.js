@@ -9,6 +9,7 @@ function ClubsItem(props) {
   const [size, setSize] = useState(props.Clubs.size)
   const [status, setStatus] = useState(props.Clubs.status)
   const [email, setEmail] = useState(props.Clubs.email)
+  const [image, setImage] = useState(props.Clubs.image)
   const [tags, setTags] = useState([]);
   const [tag, setTag] = useState('');
 
@@ -19,6 +20,10 @@ function ClubsItem(props) {
       return 'Inactive'
     }
   }
+
+  useEffect(()=>{
+    setStatus(props.Clubs.status);
+  },[])
 
   const handleAddTag = (name) => {
     const newTag = tag.trim();
@@ -40,15 +45,26 @@ function ClubsItem(props) {
     console.log(res.data))
   }
 
-  const editClubsHandler = (name) => {
-    axios.put(`http://localhost:8000/api/clubs/${name}/?desc=${desc}&size=${size}&status=${status}&email=${email}`).then(res =>
-    console.log(res.data))
-  }
-
   const Clicks = (name) => {
     handleToggle();
     editClubsHandler(name);
+  }
 
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      const image = event.target.result;
+      setImage(image);
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  const editClubsHandler = (name) => {
+    axios.put(`http://localhost:8000/api/clubs/${name}/?desc=${desc}&size=${size}&status=${status}&email=${email}&image=${image}`).then(res =>
+    console.log(res.data))
   }
 
   return (
@@ -77,8 +93,9 @@ function ClubsItem(props) {
             <p style={{ fontweight: 'bold, underline' }}>{props.Clubs.name} </p>
             <input type="text" className="mb-2 form-control desIn" placeholder={props.Clubs.description} onChange={event => setDesc(event.target.value)}/>
             <input type="number" className="mb-2 form-control sizeIn" placeholder={props.Clubs.size} onChange={event => setSize(event.target.value)}/>
-            <label> Active: <input type="checkbox" checked={props.Clubs.status} onChange={event => setStatus(event.target.checked)}/></label>
+            <label> Active: <input type="checkbox" checked={status} onChange={event => setStatus(event.target.checked)}/></label>
             <input type="text" className="mb-2 form-control emailIn" placeholder={props.Clubs.email} onChange={event => setEmail(event.target.value)}/>
+            <input type="file" accept="image/*" onChange={handleImageChange}/>
             <button type="submit" className="btn btn-outline-danger my-2 mx-2" style={{'borderRadius':'50px',}}>confirm</button>
             </span>
           </form>

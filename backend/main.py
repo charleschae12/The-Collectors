@@ -102,17 +102,17 @@ async def post_event(club: Event):
 
 # PUT a club/organization
 @app.put("/api/clubs/{name}/", response_model = Club)
-async def put_club(name: str, desc: str, size: int, status: bool, email: str):
+async def put_club(name: str, desc: str, size: int, status: bool, email: str, image: str):
     """Update a club."""
-    response = await update_club(name, desc, size, status, email)
+    response = await update_club(name, desc, size, status, email, image)
     if response:
         return response
     raise HTTPException(404, f"There is no club with the name {name}")
 
 @app.put("/api/orgs/{name}/", response_model = Club)
-async def put_org(name: str, desc: str, size: int, status: bool, email: str):
+async def put_org(name: str, desc: str, size: int, status: bool, email: str, image: str):
     """Update an organization."""
-    response = await update_club(name, desc, size, status, email, True)
+    response = await update_club(name, desc, size, status, email, image, True)
     if response:
         return response
     raise HTTPException(404, f"There is no organization with the name {name}")
