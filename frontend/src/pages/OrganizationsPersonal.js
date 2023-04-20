@@ -8,7 +8,7 @@ import { BsFillTagFill } from 'react-icons/bs';
 import { RiQuillPenFill, RiCalendarEventFill } from 'react-icons/ri';
 import { FaUserFriends } from 'react-icons/fa';
 
-function ClubPersonal() {
+function OrganizationsPersonal() {
   const [club, setClub] = useState({});
   const [events, setEvents] = useState([]);
   const { name } = useParams();
@@ -16,12 +16,12 @@ function ClubPersonal() {
   useEffect(() => {
     const fetchClubData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/clubs/${name}`);
+        const response = await axios.get(`http://localhost:8000/api/orgs/${name}`);
         setClub(response.data);
         const response2 = await axios.get(`http://localhost:8000/api/events/${name}?clubName=${name}`);
         setEvents(response2.data);
       } catch (error) {
-        console.error('Error fetching club data:', error);
+        console.error('Error fetching organizations data:', error);
       }
     };
 
@@ -84,4 +84,4 @@ function ClubPersonal() {
   );
 }
 
-export default ClubPersonal;
+export default OrganizationsPersonal;
