@@ -6,6 +6,7 @@ import GreekLifeView from '../components/GreekLifeView';
 import Bgimg from './Main_page.png';
 import SearchBar from '../components/SearchBar';
 import ClubCard from '../components/ClubCard';
+import { Link, useNavigate } from 'react-router-dom';
 
 function refreshPage() {
   window.location.reload();
@@ -17,11 +18,31 @@ function Home() {
   const [greekLifeList, setgreekLifeList] = useState([])
   const [keyword, setKeyword] = useState('')
   const [filtered, setFiltered] = useState([])
+  const navigate = useNavigate();
 
   // set the keyword as the word we got from searchbar
   const updateKey = (searchWord) => {
     setKeyword(searchWord)
   }
+
+const handleClubClick = (name) => {
+  axios.get(`http://localhost:8000/api/clubs/${name}`)
+    .then(res => {
+      // navigate to club page if the name is found in the club API
+      navigate(`/clubpage/${name}`);
+    })
+    .catch(() => {
+      axios.get(`http://localhost:8000/api/orgs/${name}`)
+        .then(res => {
+          // navigate to organization page if the name is found in the organization API
+          navigate(`/orgspage/${name}`);
+        })
+        .catch(() => {
+          // display an error message or handle the case where the name is not found in either API
+        })
+    })
+};
+
 
   // Read all clubss
   useEffect(() => {
@@ -83,12 +104,20 @@ function Home() {
           overflowY: 'auto',
         }}>
           {filtered.map(it => (
-          <ul style={{
-            margin: 20,
-            listStyle: "none",
-          }}>
-            <ClubCard clubname={it} />
-          </ul>
+            <tr
+              key={it.name}
+              onClick={() => handleClubClick(it.name)}
+              style={{ cursor: "pointer" }}
+            >
+              <td>
+                <ul style={{
+                  margin: 20,
+                  listStyle: "none",
+                }}>
+                  <ClubCard clubname={it} />
+                </ul>
+              </td>
+            </tr>
           ))}
           <style>
           {`
