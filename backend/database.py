@@ -73,21 +73,23 @@ async def create_event(event):
     await events_collection.insert_one(event)
     return event
 
-async def update_club(name, desc, size, status, email, update_org = False):
+async def update_club(name, desc, size, status, email, image, update_org = False):
     """Update a specified club in the database."""
     if update_org:
         await orgs_collection.update_many({"name": name},
                                           {"$set": {"description": desc,
                                                     "size": size,
                                                     "status": status,
-                                                    "email": email}})
+                                                    "email": email,
+                                                    "image": image}})
         document = await orgs_collection.find_one({"name": name})
     else:
         await clubs_collection.update_many({"name": name},
                                            {"$set": {"description": desc,
                                                      "size": size,
                                                      "status": status,
-                                                     "email": email}})
+                                                     "email": email,
+                                                     "image": image}})
         document = await clubs_collection.find_one({"name": name})
     return document
 
