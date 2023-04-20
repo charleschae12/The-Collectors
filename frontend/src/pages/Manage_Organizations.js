@@ -144,7 +144,7 @@ return (
               marginBottom: '20px',
             }}
           >
-            Create New Club
+            Create New Organizations
           </div>
           <form onSubmit={addClubsHandler}>
             <span className="card-text">
@@ -192,7 +192,7 @@ return (
                   fontWeight: 'bold',
                 }}
               >
-                Add Club
+                Add Organization
               </button>
             </span>
           </form>
@@ -221,7 +221,7 @@ return (
             marginLeft: '0',
           }}
         >
-          <h5 className="card text-white bg-dark mb-3">Manage Clubs</h5>
+          <h5 className="card text-white bg-dark mb-3">Manage Organizations</h5>
           <span>
             <select
               value={sortMethod}
