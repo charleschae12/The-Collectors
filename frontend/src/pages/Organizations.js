@@ -2,10 +2,12 @@ import '../App.css';
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ClubsView from '../components/GreekLifeView';
 import Bgimg from './Main_page.png';
 import SearchBar from '../components/SearchBar';
 import ClubCard from '../components/ClubCard';
-import GreekLifeView from '../components/GreekLifeView';
+import { Link, useNavigate } from 'react-router-dom';
+import logo from '../components/Logo.png';
 
 /**
  * This page will show the list of clubs by table, and support various ways of sorting, filtering.
@@ -26,18 +28,30 @@ function Organizations() {
   const [filteredData, setFilteredData] = useState([]);
   const [keyword, setKeyword] = useState('')
   const [filtered, setFiltered] = useState([])
+  const navigate = useNavigate();
+
+  // takes the club ID as an argument and navigates to the personalized club page
+  const handleClubClick = (name) => {
+    axios.get(`http://localhost:8000/api/orgs/${name}`)
+      .then(res => {
+        // You can set the fetched club data to the state or directly navigate to the club page with the fetched data
+        navigate(`/orgspage/${name}`);
+      })
+      .catch(error => console.log(error));
+  };
+
 
   // set the keyword as the word we got from searchbar
   const updateKey = (searchWord) => {
     setKeyword(searchWord)
   }
 
-  // Read all clubss
+  // Read all organizations
   useEffect(() => {
     axios.get('http://localhost:8000/api/orgs')
       .then(res => {
         const sortedData = res.data.sort((a, b) => {
-          return a.name.localeCompare(b.name);
+          return a.name.strip().localeCompare(b.name.strip());
         });
         setClubList(sortedData);
       })
@@ -48,8 +62,8 @@ function Organizations() {
     if (keyword === null || keyword === ''){
       setFiltered(clubList)
     }else{ {/**Filters data by input, for tags, add '#' infront of each tags so users can find only tags by '#' */}
-      const filteredData = clubList.filter((orgs) =>
-      `${orgs.name.toLowerCase()} ${orgs.description.toLowerCase()} ${orgs.tags.map((text) => (
+      const filteredData = clubList.filter((club) =>
+      `${club.name.toLowerCase()} ${club.description.toLowerCase()} ${club.tags.map((text) => (
         `#${text}`
       ))}`.includes(keyword.toLowerCase()))
       setFiltered(filteredData)
@@ -62,7 +76,7 @@ function Organizations() {
     axios.get('http://localhost:8000/api/orgs')
       .then(res => {
         if (selectedTag !== '') {
-          setFilteredData(res.data.filter(orgs => orgs.tags.includes(selectedTag)));
+          setFilteredData(res.data.filter(club => club.tags.includes(selectedTag)));
         } else {
           setFilteredData(res.data);
         }
@@ -103,6 +117,8 @@ function Organizations() {
             } else {
               return 1 || b.name.localeCompare(a.name);
             }
+          } else{
+            return a.name.localeCompare(b.name);
           }
         });
         const uniqueItems = [];
@@ -190,6 +206,9 @@ function Organizations() {
           <thead>
             <tr>
               <th>
+                
+              </th>
+              <th>
                 <button
                   type="button"
                   className="btn btn-link"
@@ -245,13 +264,24 @@ function Organizations() {
             </tr>
           </thead>
           <tbody>
-            {filtered.map((orgs) => (
-              <tr key={orgs.id}>
-                <td>{orgs.name}</td>
-                <td>{orgs.size}</td>
-                <td>{orgs.description}</td>
-                <td>{orgs.email}</td>
-                <td>{orgs.status ? "Yes" : "No"}</td>
+            {filtered.map((club) => (
+              <tr
+                key={club.name}
+                onClick={() => handleClubClick(club.name)}
+                style={{ cursor: "pointer" }}
+              >
+                <td>{club.image && <img style={{
+                width: `72px`,
+                height: `72px`,
+              }} src={club.image} alt="uploaded image" /> || !club.image && <img style = {{
+                width: '72px',
+                height: '72px',
+              }} src = {logo}/>}</td>
+                <td>{club.name}</td>
+                <td>{club.size}</td>
+                <td>{club.description}</td>
+                <td>{club.email}</td>
+                <td>{club.status ? "Yes" : "No"}</td>
               </tr>
             ))}
           </tbody>
