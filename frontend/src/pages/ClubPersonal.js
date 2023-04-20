@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import logo from '../components/Logo.png';
+import classes from './ClubPersonal.module.css';
+import { AiOutlineMail, AiFillCheckCircle } from 'react-icons/ai';
+import { BsFillTagFill } from 'react-icons/bs';
+import { RiQuillPenFill, RiCalendarEventFill } from 'react-icons/ri';
+import { FaUserFriends } from 'react-icons/fa';
 
 function ClubPersonal() {
   const [club, setClub] = useState({});
@@ -23,19 +29,57 @@ function ClubPersonal() {
   }, [name]);
 
   return (
-    <div className="container" style={{
-      marginTop: '90px',
-    }}>
-      <h2>{club.name}</h2>
-      <p>Members: {club.size}</p>
-      <p>Description: {club.description}</p>
-      <p>Email: {club.email}</p>
-      <p>Active: {club.status ? 'Yes' : 'No'}</p>
-      <p>Tags: {club.tags && club.tags.join(', ')}</p>
-      <p>Events:</p>
-      {events.map((event) => (
-        <p>{event.name}</p>
-      ))}
+    <div className={classes.container}>
+      <img className={classes.logo} src={club.image ? club.image : logo} alt="Club logo" />
+      <h2 className={classes.clubName} style={{ color: club.status ? 'blue' : 'red' }}>
+        {club.name}
+      </h2>
+      <div className={`${classes.subContainer} ${classes.status}`}>
+        <div>
+          <h3 className={classes.clubInfo}>
+            <AiFillCheckCircle />
+            Active
+          </h3>
+          <p>{club.status ? 'Yes' : 'No'}</p>
+        </div>
+        <div className={classes.members}>
+          <h3 className={classes.clubInfo}>
+            <FaUserFriends />
+            Members
+          </h3>
+          <p>{club.size}</p>
+        </div>
+      </div>
+      <div className={`${classes.subContainer} ${classes.description}`}>
+        <h3 className={classes.clubInfo}>
+          <RiQuillPenFill />
+          Description
+        </h3>
+        <p>{club.description}</p>
+      </div>
+      <div className={`${classes.subContainer} ${classes.tags}`}>
+        <h3 className={classes.clubInfo}>
+          <BsFillTagFill />
+          Tags
+        </h3>
+        <p>{club.tags && club.tags.join(', ')}</p>
+      </div>
+      <div className={`${classes.subContainer} ${classes.email}`}>
+        <h3 className={classes.clubInfo}>
+          <AiOutlineMail />
+          Email
+        </h3>
+        <p>{club.email}</p>
+      </div>
+      <div className={`${classes.subContainer} ${classes.events}`}>
+        <h3 className={classes.clubInfo}>
+          <RiCalendarEventFill />
+          Events
+        </h3>
+        {events.map((event) => (
+          <p key={event.id} className={classes.event}>{event.name}</p>
+        ))}
+      </div>
     </div>
   );
 }
