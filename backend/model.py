@@ -1,5 +1,6 @@
 from typing import List, Optional
 from datetime import datetime
+from fastapi import UploadFile
 from pydantic import BaseModel
 
 class Club(BaseModel):
@@ -9,6 +10,7 @@ class Club(BaseModel):
   email: str
   status: bool
   size: int
+  image: Optional[str] = None
   tags: Optional[List[str]] = None
 
 class Event(BaseModel):
@@ -16,6 +18,7 @@ class Event(BaseModel):
   clubName: str
   name: str
   description: str
+  image: Optional[str] = None
   date: datetime
   
 class User(BaseModel):

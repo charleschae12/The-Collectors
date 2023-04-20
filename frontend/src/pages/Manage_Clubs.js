@@ -15,6 +15,7 @@ function Manage_Clubs(props) {
   const [size, setSize] = useState(0)
   const [status, setStatus] = useState(false)
   const [email, setEmail] = useState('')
+  const [image, setImage] = useState(null)
   const [selectedTag, setSelectedTag] = useState('');
   const [tagList, setTagList] = useState([]);
   const [allTags, setAllTags] = useState([]);
@@ -85,9 +86,20 @@ function Manage_Clubs(props) {
       .catch(error => console.log(error));
   }, [sortOrder, sortMethod, selectedTag, filteredData, refreshPage]);
   
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      const image = event.target.result;
+      setImage(image);
+    };
+
+    reader.readAsDataURL(file);
+  };
   // Post a club
   const addClubsHandler = () => {
-    axios.post('http://localhost:8000/api/clubs', { 'name': name, 'description': desc, 'size': size, 'status': status, 'email': email, 'tags': []})
+    axios.post('http://localhost:8000/api/clubs', { 'name': name, 'description': desc, 'size': size, 'status': status, 'email': email, 'image': image, 'tags': []})
     .then(res => console.log(res))
   }
 
@@ -103,6 +115,7 @@ function Manage_Clubs(props) {
         <input type="number" className="mb-2 form-control sizeIn" onChange={event => setSize(event.target.value)} placeholder='0'/>
         <label> Active: <input type="checkbox" onChange={event => setStatus(event.target.checked)}/></label>
         <input type="text" className="mb-2 form-control emailIn" onChange={event => setEmail(event.target.value)} placeholder='Email'/>
+        <input type="file" accept="image/*" onChange={handleImageChange} />
         <button className="btn btn-outline-primary mx-2 mb-3" style={{'borderRadius':'50px', "font-weight":"bold"}}>Add Club</button>
       </span>
     </form>
