@@ -3,6 +3,7 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ClubsView from '../components/ClubsView copy.js';
+import BgImg from './Main_page2.png';
 
 
 function Manage_Clubs(props) {
@@ -104,43 +105,76 @@ function Manage_Clubs(props) {
   }
 
   return (
-    <div className="App list-group-item justify-content-center align-items-center mx-auto" style={{"width":"800px", "paddingTop":"120px"}}>
-    <h1 className="card text-white bg-primary mb-1" styleName="max-width: 20rem;">CLUBS</h1>
-    <div className="card-body">
-    <h5 className="card text-white bg-dark mb-3">Add a Club</h5>
-    <form onSubmit={addClubsHandler}>
-      <span className="card-text">
-        <input type="text" className="mb-2 form-control nameIn" onChange={event => setName(event.target.value)} placeholder='Name'/>
-        <input type="text" className="mb-2 form-control desIn" onChange={event => setDesc(event.target.value)} placeholder='Description'/>
-        <input type="number" className="mb-2 form-control sizeIn" onChange={event => setSize(event.target.value)} placeholder='0'/>
-        <label> Active: <input type="checkbox" onChange={event => setStatus(event.target.checked)}/></label>
-        <input type="text" className="mb-2 form-control emailIn" onChange={event => setEmail(event.target.value)} placeholder='Email'/>
-        <input type="file" accept="image/*" onChange={handleImageChange} />
-        <button className="btn btn-outline-primary mx-2 mb-3" style={{'borderRadius':'50px', "font-weight":"bold"}}>Add Club</button>
-      </span>
-    </form>
-
-      <h5 className="card text-white bg-dark mb-3">Clubs:</h5>
-      <span>
-        <select value={sortMethod} onChange={(event) => setSortMethod(event.target.value)}>
-          <option value="nameAsc">Sort by name asc</option>
-          <option value="nameDesc">Sort by name desc</option>
-          <option value="sizeAsc">Sort by size asc</option>
-          <option value="sizeDesc">Sort by size desc</option>
-          <option value="Active">Sort by Active</option>
-          <option value="Inactive">Sort by Inactive</option>
-        </select>
-        <select value={selectedTag} onChange={(event) => setSelectedTag(event.target.value)}>
-          <option value="">All tags</option>
-          {tagList.map(tag => (
-            <option key={tag} value={tag}>{tag}</option>
-          ))}
-        </select>
-      </span>
-      <div>
-        <ClubsView clubList={clubList} />
+    <div className="container-fluid" style={{
+      paddingTop: "80px",
+      backgroundImage: `url(${BgImg})`,
+      backgroundRepeat: 'repeat',
+      backgroundPosition: 'center',
+      width: '100vw',
+      height: '100hw',
+      }}
+    >
+      <div style={{
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
+        backgroundColor: '#ffffffd0',
+        borderRadius: '10px',
+        width: '54vw',
+        margin: '0 auto',
+        left: '23%',
+      }}>
+        <div style={{
+          fontSize: '48px',
+          width: '50vw',
+          margin: '0 auto',
+        }}>Create New Club</div>
+        <form style={{
+          width: '50vw',
+          margin: '0 auto',
+        }}
+        onSubmit={addClubsHandler}>
+          <span className="card-text">
+            <input type="text" className="mb-2 form-control nameIn" onChange={event => setName(event.target.value)} placeholder='Name'/>
+            <input type="text" className="mb-2 form-control desIn" onChange={event => setDesc(event.target.value)} placeholder='Description'/>
+            <input type="number" className="mb-2 form-control sizeIn" onChange={event => setSize(event.target.value)} placeholder='0'/>
+            <label> Active: <input type="checkbox" onChange={event => setStatus(event.target.checked)}/></label>
+            <input type="text" className="mb-2 form-control emailIn" onChange={event => setEmail(event.target.value)} placeholder='Email'/>
+            <input type="file" accept="image/*" onChange={handleImageChange} />
+            <button className="btn btn-outline-primary mx-2 mb-3" style={{'borderRadius':'50px', "font-weight":"bold"}}>Add Club</button>
+          </span>
+        </form>
       </div>
-    </div>
+      
+      <div className="card-body" style={{
+        width: '70vw',
+        margintop: '10px',
+        margin: '0 auto',
+        alignItems: 'center',
+        textAlign: 'center',
+      }}>
+
+        <h5 className="card text-white bg-dark mb-3">Your Clubs:</h5>
+        <span>
+          <select value={sortMethod} onChange={(event) => setSortMethod(event.target.value)}>
+            <option value="nameAsc">Sort by name asc</option>
+            <option value="nameDesc">Sort by name desc</option>
+            <option value="sizeAsc">Sort by size asc</option>
+            <option value="sizeDesc">Sort by size desc</option>
+            <option value="Active">Sort by Active</option>
+            <option value="Inactive">Sort by Inactive</option>
+          </select>
+          <select value={selectedTag} onChange={(event) => setSelectedTag(event.target.value)}>
+            <option value="">All tags</option>
+            {tagList.map(tag => (
+              <option key={tag} value={tag}>{tag}</option>
+            ))}
+          </select>
+        </span>
+        <div>
+          <ClubsView clubList={clubList} />
+        </div>
+      </div>
     </div>
   );
 }
