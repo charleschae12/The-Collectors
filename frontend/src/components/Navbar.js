@@ -1,13 +1,23 @@
-import React from 'react';
-import { Link, useLocation } from "react-router-dom";
+import React, { useContext } from 'react';
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import '../App.css';
 import styled from 'styled-components';
 import logo from './Logo.png';
+import { AuthContext, useAuth } from '../components/AuthContext';
 
 function Navbar() {
   let location = useLocation(); {/* getting the current location */}
+  const { authData, setAuthData } = useAuth();
 
-  if (location.pathname !== "/Login") { {/* In login page, the navbar will disappear */}
+  const handleLogout = () => {
+    setAuthData({ isLoggedIn: false, data: null });
+  };
+
+  if (location.pathname === "/Login" || location.pathname === "/Register"){
+    return null;
+  }
+
+  if (location.pathname !== "/Login" || location.pathname !== "/Register") { {/* In login page, the navbar will disappear */}
     return (
       <Nav>
         <NavMenu>
@@ -23,7 +33,6 @@ function Navbar() {
             </NavLink>
             <NavDropdownMenu>
               <NavLink to="/Clubs">Club List</NavLink>
-              <NavLink to="/Search_Clubs">Search Clubs</NavLink>
               <NavLink to="/Manage_Clubs">Manage Clubs</NavLink>
             </NavDropdownMenu>
           </NavDropdown>
@@ -35,7 +44,6 @@ function Navbar() {
               minWidth: '200px'
             }}>
               <NavLink to="/Organizations">Organization List</NavLink>
-              <NavLink to="/Search_Organizations">Search Organizations</NavLink>
               <NavLink to="/Manage_Organizations">Manage Organizations</NavLink>
             </NavDropdownMenu>
           </NavDropdown>
@@ -53,7 +61,14 @@ function Navbar() {
           </NavLink>
         </NavMenu>
         <NavBtn>
-          <NavBtnLink to='/Login'>Sign In</NavBtnLink>
+          {authData && authData.isLoggedIn ? (
+            <>
+              <NavBtnLink to="/Profile">Profile</NavBtnLink>
+              <NavBtnLink onClick={handleLogout} to="/">Logout</NavBtnLink>
+            </>
+          ) : (
+            <NavBtnLink to="/Login">Login</NavBtnLink>
+          )}
         </NavBtn>
       </Nav>
     );
@@ -62,7 +77,7 @@ function Navbar() {
 
 export default Navbar;
 
-//  >>styles are written here<<
+// >>styles are written here<<
 
 const NavDropdown = styled.div`
   position: relative;

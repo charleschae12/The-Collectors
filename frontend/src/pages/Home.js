@@ -28,7 +28,7 @@ function Home() {
     axios.get('http://localhost:8000/api/clubsorgs')
       .then(res => {
         const sortedData = res.data.sort((a, b) => {
-          return a.name.localeCompare(b.name);
+          return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
         });
         setClubList(sortedData);
       })
@@ -38,10 +38,10 @@ function Home() {
   useEffect(() => {
     if (keyword === null || keyword === ''){
       setFiltered(clubList)
-    }else{ {/**Filters data by input, for tags, add '#' infront of each tags so users can find only tags by '#' */}
+    }else{ /**Filters data by input, for tags, add '#' infront of each tags so users can find only tags by '#' */
       const filteredData = clubList.filter((club) =>
       `${club.name.toLowerCase()} ${club.description.toLowerCase()} ${club.tags.map((text) => (
-        `#${text}`
+        `#${text.toLowerCase()}`
       ))}`.includes(keyword.toLowerCase()))
       setFiltered(filteredData)
     }
@@ -78,7 +78,7 @@ function Home() {
           backgroundColor: '#ffffffa0',
           borderRadius: '10px',
           width: '100%',
-          height: '67vh',
+          height: '55vh',
           alignContent: 'top',
           overflowY: 'auto',
         }}>

@@ -1,134 +1,150 @@
-import React from 'react';
-import '../App.css'
-import Bgimg from './BG.png';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import './Register.css';
+import logo from '../components/Logo.png';
+import backgroundImage from '../image/Register.png';
 import axios from 'axios';
-import styled from 'styled-components';
-import { Link } from "react-router-dom";
 
-function Register(){
-  return(
-    <div style={{
-        backgroundImage: `url(${Bgimg})`,
-        backgroundRepeat: 'repeat',
-        backgroundPosition: 'center',
-        width: '100vw',
-        height: '100vh',
-        textAlign: 'center',
-    }}>
-        <div className="App justify-content-center align-items-center mx-auto" style={{
-            width: '500px',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: '140px 5px 5px 5px',
-        }}>
-            <div style={{
-                display: 'flex',
-                backgroundColor: '#202060',
-                height: '80px',
-                color: 'white',
-                fontSize: '45px',
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderRadius: '10px',
-            }}>
-                Register
-            </div>
-            <div style={{
-                height: '200px',
-                padding: '10px 0px 0px 0px',
-            }}>
-                <div style={{
-                    display: 'flex',
-                    backgroundColor: '#ffffff90',
-                    height: '130px',
-                    width: '100%',
-                    borderRadius: '10px',
-                    alignContent: 'right',
-                    alignItems: 'right',
-                }}>
-                    <div style={{
-                        width: '70%',
-                        padding: '10px 10px 5px 5px',
-                    }}>
-                        <label style={{
-                            width: '40%',
-                        }}>Login Name:&nbsp;</label>
-                        <input type='text' id='id' style={{
-                            width: '60%',
-                        }}>
-                        </input>
-                        <div style={{
-                            height: '10px',
-                        }}></div>
-                        <label style={{
-                            width: '40%',
-                        }}>Display Name:&nbsp;</label>
-                        <input type='text' id='id' style={{
-                            width: '60%',
-                        }}>
-                        </input>
-                        <div style={{
-                            height: '10px',
-                        }}></div>
-                        <label style={{
-                            width: '40%',
-                        }}>Password :&nbsp;</label>
-                        <input type='password' style={{
-                            width: '60%',
-                        }}>
-                        </input>
-                    </div>
-                    <div style={{
-                        padding: '10px 30px 10px 10px',
-                        width: '30%',
-                    }}>
-                        <button style={{
-                            backgroundColor: 'cyan',
-                            width: '100%',
-                            height: '110px',
-                            borderRadius: '15px',
-                            fontSize: '20px',
-                        }}>
-                            Enter 
-                        </button>
-                    </div>
-                </div>
-                <div style={{
-                    display: 'flex',
-                }}>
-                    <Link to="/Login" style={{
-                        width: '50%',
-                        justifyContent: 'center',
-                        color: 'white',
-                    }}>
-                      &#9626; Back to login
-                    </Link>
-                    
-                    <HomeLink to="/" style={{
-                        width: '50%',
-                        justifyContent: 'center',
-                    }}>
-                        &#8635; Back to home
-                    </HomeLink>
-                </div>
-            </div>
+const Register = () => {
+  // Declare state variables for user input
+  const [email, setEmail] = useState('');
+  const [confirmEmail, setConfirmEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [rcsid, setRcsid] = useState('');
+  // Declare navigate function for routing
+  const navigate = useNavigate();
+
+  // Function to handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Validate input fields
+    if (rcsid.match(/^\d/)) { // check if rcsid starts with a number
+      alert('RCSID cannot start with a number');
+      return;
+    }
+
+    if (email !== confirmEmail) {
+      alert('Emails do not match');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+
+    if (password.length < 6) {
+      alert('Password should be at least 6 characters');
+      return;
+    }
+
+    // Log user input for debugging
+    console.log('Email:', email, 'Confirm Email:', confirmEmail, 'Password:', password, 'Confirm Password:', confirmPassword, 'RCSID:', rcsid);
+
+    // Send data to the server
+    try {
+      const response = await axios.post("http://localhost:8000/api/register", {
+        rcsid,
+        email,
+        password,
+      });
+
+      // Handle server response
+      if (response.status === 200) {
+        // Show a success message or redirect to the login page
+        alert("Registration successful! Please log in.");
+        navigate('/login');
+      } else {
+        // Handle registration error
+        alert("Registration failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error during registration:", error);
+    }
+
+  };
+
+
+  return (
+    <div className="register-page-wrapper" style={{ backgroundImage: `url(${backgroundImage})` }}>
+      <div className="register-container">
+        <div className="header">
+          <Link to="/" className="header-link">
+            <img src={logo} alt="The Collectors Logo" className="logo" />
+            <span className="header-text">The Collectors</span>
+          </Link>
         </div>
+        <form onSubmit={handleSubmit}>
+          <div className="input-group">
+            <label htmlFor="rcsid">RCSID</label>
+            <input
+              type="text"
+              id="rcsid"
+              value={rcsid}
+              onChange={(e) => setRcsid(e.target.value)}
+              required
+            />
+            {rcsid.match(/^\d/) && (
+              <span className="warning-message">RCSID cannot start with a number</span>
+            )}
+          </div>
+          <div className="input-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="input-group">
+            <label htmlFor="confirmEmail">Confirm Email</label>
+            <input
+              type="email"
+              id="confirmEmail"
+              value={confirmEmail}
+              onChange={(e) => setConfirmEmail(e.target.value)}
+              required
+            />
+            {email !== confirmEmail && confirmEmail !== '' && (
+              <span className="warning-message">Emails do not match</span>
+            )}
+          </div>
+          <div className="input-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            {password.length < 6 && (
+              <span className="warning-message">Password should be at least 6 characters</span>
+            )}
+          </div>
+          <div className="input-group">
+            <label htmlFor="confirmPassword">Confirm Password</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+            {password !== confirmPassword && confirmPassword !== '' && (
+              <span className="warning-message">Password do not match</span>
+            )}
+          </div>
+          <button type="submit">Register</button>
+        </form>
+        <Link to="/Login" className="back-button">Back</Link>
+      </div>
     </div>
-);
-}
-
+  );
+};
 
 export default Register;
-
-export const HomeLink = styled(Link)`
-  color: #f0f0f0;
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  padding: 0 1rem;
-  height: 100%;
-  cursor: pointer;
-  &.active {
-    color: #000000;
-  }
-`;

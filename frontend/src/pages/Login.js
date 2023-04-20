@@ -1,124 +1,113 @@
-import React from 'react';
-import '../App.css'
-import Bgimg from './BG.png';
-import styled from 'styled-components';
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import './Login.css';
+import logo from '../components/Logo.png';
+import backgroundImage from '../image/login.png';
+import axios from 'axios';
+import { useAuth } from '../components/AuthContext';
+import { useUser } from '../components/UserContext';
 
-/**
- * 
- * Log in page for user, please make this simple as possible.
- */
-function Login(){
-    return(
-        <div style={{
-            backgroundImage: `url(${Bgimg})`,
-            backgroundRepeat: 'repeat',
-            backgroundPosition: 'center',
-            width: '100vw',
-            height: '100vh',
-            textAlign: 'center',
-        }}>
-            <div className="App justify-content-center align-items-center mx-auto" style={{
-                width: '500px',
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: '140px 5px 5px 5px',
-            }}>
-                <div style={{
-                    display: 'flex',
-                    backgroundColor: '#202060',
-                    height: '80px',
-                    color: 'white',
-                    fontSize: '45px',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: '10px',
-                }}>
-                    Login
-                </div>
-                <div style={{
-                    padding: '10px 0px 0px 0px',
-                }}>
-                    <div style={{
-                        display: 'flex',
-                        backgroundColor: '#ffffff90',
-                        height: '90px',
-                        width: '100%',
-                        borderRadius: '10px',
-                        alignContent: 'right',
-                        alignItems: 'right',
-                    }}>
-                        <div style={{
-                            width: '70%',
-                            padding: '10px 10px 5px 5px',
-                        }}>
-                            <label style={{
-                                width: '15%',
-                            }}>ID :&nbsp;</label>
-                            <input type='text' id='id' style={{
-                                width: '85%',
-                            }}>
-                            </input>
-                            <div style={{
-                                height: '10px',
-                            }}></div>
-                            <label style={{
-                                width: '15%',
-                            }}>PW :&nbsp;</label>
-                            <input type='password' style={{
-                                width: '85%',
-                            }}>
-                            </input>
-                        </div>
-                        <div style={{
-                            padding: '10px 30px 10px 10px',
-                            width: '30%',
-                        }}>
-                            <button style={{
-                                backgroundColor: 'cyan',
-                                width: '100%',
-                                height: '70px',
-                                borderRadius: '15px',
-                            }}>
-                                Log in
-                            </button>
-                        </div>
-                    </div>
-                    <div style={{
-                        display: 'flex',
-                    }}>
-                        <Link to="/Register" style={{
-                            width: '50%',
-                            justifyContent: 'center',
-                            color: 'white',
-                        }}>
-                        &#9626; Register
-                        </Link>
-                        
-                        <HomeLink to="/" style={{
-                            width: '50%',
-                            justifyContent: 'center',
-                        }}>
-                            &#8635; Back to home
-                        </HomeLink>
-                    </div>
-                </div>
-            </div>
+const Login = () => {
+  // Declare state variables for user input
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  // Declare state variable for error handling
+  const [error, setError] = useState('');
+  // Get setAuthData function from the AuthContext
+  const { setAuthData } = useAuth();
+  // Get setUser function from the UserContext
+  const { setUser } = useUser();
+  // Declare navigate function for routing
+  const navigate = useNavigate();
+
+  // Function to handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    //console.log('Email:', email, 'Password:', password);
+
+    // Validate input fields
+    if (!email || !password) {
+      setError("Email and password fields are required");
+      return;
+    }
+
+    // Send data to the server
+    try {
+      const response = await axios.post("http://localhost:8000/api/login", {
+        email,
+        password,
+      }, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      // Store user data and redirect to the main application page
+      setAuthData({ isLoggedIn: true, data: response.data });
+      //console.log(response.data);
+      setUser({ email: email }); // Set the user's email
+      navigate('/');
+
+    } catch (error) {
+      console.error("Error during login:", error);
+      // Handle login error
+      if (error.response && error.response.status === 400) {
+        setError("Incorrect email or password");
+      } else {
+        setError("Login failed. Please try again.");
+      }
+    }
+  };
+
+  // Render the login form
+  return (
+    <div className="login-page-wrapper" style={{ backgroundImage: `url(${backgroundImage})` }}>
+      <div className="login-container">
+        <div className="header">
+          <Link to="/" className="header-link">
+            <img src={logo} alt="The Collectors Logo" className="logo" />
+            <span className="header-text">The Collectors</span>
+          </Link>
         </div>
-    );
-}
+        {/* Display error message */}
+        {error && <div className="error-message">{error}</div>}
+        <form onSubmit={handleSubmit}>
+          {/* Email input field */}
+          <div className="input-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          {/* Password input field */}
+          <div className="input-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit">Log In</button>
+        </form>
+        {/* Link to the registration page */}
+        <Link to="/Register">
+          <button className="register-button">
+            Register
+          </button>
+        </Link>
+      </div>
+    </div>
+  );
+};
 
 export default Login;
-
-export const HomeLink = styled(Link)`
-  color: #f0f0f0;
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  padding: 0 1rem;
-  height: 100%;
-  cursor: pointer;
-  &.active {
-    color: #000000;
-  }
-`;

@@ -3,6 +3,9 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import EventsView from '../components/EventsView';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import moment from "moment-timezone";
 
 function Manage_Events() {
 
@@ -16,6 +19,7 @@ function Manage_Events() {
   const [clubName, setClubName] = useState('')
   const [desc, setDesc] = useState('')
   const [date, setDate] = useState('')
+  const [image, setImage] = useState(null)
 
   function refreshPage() {
     window.location.reload();
@@ -82,9 +86,21 @@ function Manage_Events() {
       .catch(error => console.log(error));
   }, [sortOrder, sortMethod, selectedTag, filteredData, refreshPage]);
 
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      const image = event.target.result;
+      setImage(image);
+    };
+
+    reader.readAsDataURL(file);
+  };
+
   // Post a club
   const addEventsHandler = () => {
-    axios.post('http://localhost:8000/api/events', { 'clubName': clubName, 'name': name, 'description': desc, 'date': date})
+    axios.post('http://localhost:8000/api/events', { 'clubName': clubName, 'name': name, 'description': desc, 'date': moment(date).tz("America/New_York").format("YYYY-MM-DDTHH:mm:ssZ"), 'image': image})
     .then(res => console.log(res))
   }
 
@@ -98,7 +114,8 @@ function Manage_Events() {
         <input type="text" className="mb-2 form-control nameIn" onChange={event => setName(event.target.value)} placeholder='Name'/>
         <input type="text" className="mb-2 form-control nameIn" onChange={event => setClubName(event.target.value)} placeholder='Club Name'/>
         <input type="text" className="mb-2 form-control desIn" onChange={event => setDesc(event.target.value)} placeholder='Description'/>
-        <input type="text" className="mb-2 form-control sizeIn" onChange={event => setDate(event.target.value)} placeholder='mm/dd/yyyy'/>
+        <DatePicker selected={date} onChange={(date) => setDate(date)} showTimeSelect dateFormat="yyyy/MM/dd HH:mm:ss"/>
+        <input type="file" accept="image/*" onChange={handleImageChange} />
         <button className="btn btn-outline-primary mx-2 mb-3" style={{'borderRadius':'50px', "font-weight":"bold"}}>Add Event</button>
       </span>
     </form>

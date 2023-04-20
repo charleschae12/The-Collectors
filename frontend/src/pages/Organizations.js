@@ -2,27 +2,67 @@ import '../App.css';
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Bgimg from './Main_page.png';
+import SearchBar from '../components/SearchBar';
+import ClubCard from '../components/ClubCard';
 import GreekLifeView from '../components/GreekLifeView';
+
+/**
+ * This page will show the list of clubs by table, and support various ways of sorting, filtering.
+ */
+
+function refreshPage() {
+  window.location.reload();
+} 
+
 
 function Organizations() {
 
   const [sortOrder, setSortOrder] = useState('asc');
   const [sortMethod, setSortMethod] = useState('name');
-  const [greekLifeList, setgreekLifeList] = useState([])
+  const [clubList, setClubList] = useState([])
   const [selectedTag, setSelectedTag] = useState('');
   const [tagList, setTagList] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const [keyword, setKeyword] = useState('')
+  const [filtered, setFiltered] = useState([])
 
-  function refreshPage() {
-    window.location.reload();
-  } 
+  // set the keyword as the word we got from searchbar
+  const updateKey = (searchWord) => {
+    setKeyword(searchWord)
+  }
 
-  // Read all clubs
+  // Read all clubss
+  useEffect(() => {
+    axios.get('http://localhost:8000/api/orgs')
+      .then(res => {
+        const sortedData = res.data.sort((a, b) => {
+          return a.name.localeCompare(b.name);
+        });
+        setClubList(sortedData);
+      })
+  },[refreshPage]);
+
+  // When keyword is inputted at Searchbar
+  useEffect(() => {
+    if (keyword === null || keyword === ''){
+      setFiltered(clubList)
+    }else{ {/**Filters data by input, for tags, add '#' infront of each tags so users can find only tags by '#' */}
+      const filteredData = clubList.filter((orgs) =>
+      `${orgs.name.toLowerCase()} ${orgs.description.toLowerCase()} ${orgs.tags.map((text) => (
+        `#${text}`
+      ))}`.includes(keyword.toLowerCase()))
+      setFiltered(filteredData)
+    }
+  }, [keyword, updateKey]);
+
+
+  // Read all clubs, filter it, then sort it.
   useEffect(() => {
     axios.get('http://localhost:8000/api/orgs')
       .then(res => {
         if (selectedTag !== '') {
-          setFilteredData(res.data.filter(club => club.tags.includes(selectedTag)));
+          setFilteredData(res.data.filter(orgs => orgs.tags.includes(selectedTag)));
         } else {
           setFilteredData(res.data);
         }
@@ -73,120 +113,150 @@ function Organizations() {
           }
         });
         setTagList(uniqueItems);
-        setgreekLifeList(sortedData);
+        setClubList(sortedData);
       })
       .catch(error => console.log(error));
   }, [sortOrder, sortMethod, selectedTag, filteredData, refreshPage]);
 
+  // When sorting method has changed
   const handleSortMethodChange = (e) => {
     setSortMethod(e.target.value);
   }
 
+  // When sorting order (ascending or descending) has changed
   const handleSortOrderChange = (e) => {
     setSortOrder(e.target.value);
   }
 
+  // When tag filter has changed
   const handleTagFilter = (tag) => {
     setSelectedTag(tag);
   }
 
+  // When tag is set as 'default' or 'none'
   const clearTagFilter = () => {
     setSelectedTag('');
   }
 
-  return (
-  <div className="container-fluid">
-    <div className="row mt-3 mb-3">
-      <div className="col-md-2">
-        <div className="form-group">
-          <label htmlFor="tag-select">Filter by Tag:</label>
-          <select
-            className="form-control"
-            id="tag-select"
-            value={selectedTag}
-            onChange={(e) => setSelectedTag(e.target.value)}
-          >
-            <option value="">All</option>
-            {tagList.map((tag, index) => (
-              <option key={index} value={tag}>
-                {tag}
-              </option>
-            ))}
-          </select>
+    return (
+      <div
+        className="container-fluid"
+        style={{
+          paddingTop: '80px',
+          backgroundImage: `url(${Bgimg})`,
+          backgroundRepeat: 'repeat',
+          backgroundPosition: 'center',
+          width: '100vw',
+          height: '100vh',
+          textAlign: 'center',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <SearchBar onChange={(e) => updateKey(e)} />
+          <div className="form-group" style={{ marginLeft: '20px' }}>
+            <label htmlFor="tag-select">Filter by Tag:</label>
+            <select
+              className="form-control"
+              id="tag-select"
+              value={selectedTag}
+              onChange={(e) => setSelectedTag(e.target.value)}
+            >
+              <option value="">All</option>
+              {tagList.map((tag, index) => (
+                <option key={index} value={tag}>
+                  {tag}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
-      </div>
-    </div>
-    <div className="table-responsive">
-      <table className="table table-striped table-hover">
-        <thead>
-          <tr>
-            <th>
-              <button
-                type="button"
-                className="btn btn-link"
-                onClick={() =>
-                  setSortMethod(sortMethod === "nameAsc" ? "nameDesc" : "nameAsc")
-                }
-              >
-                Name
-                {sortMethod === "nameAsc" && sortOrder === "asc" && (
-                  <i className="fas fa-caret-up ml-2"></i>
-                )}
-                {sortMethod === "nameAsc" && sortOrder === "desc" && (
-                  <i className="fas fa-caret-down ml-2"></i>
-                )}
-              </button>
-            </th>
-            <th>
-              <button
-                type="button"
-                className="btn btn-link"
-                onClick={() =>
-                  setSortMethod(sortMethod === "sizeAsc" ? "sizeDesc" : "sizeAsc")
-                }
-              >
-                Number of Members
-                {sortMethod === "sizeAsc" && sortOrder === "asc" && (
-                  <i className="fas fa-caret-up ml-2"></i>
-                )}
-                {sortMethod === "sizeAsc" && sortOrder === "desc" && (
-                  <i className="fas fa-caret-down ml-2"></i>
-                )}
-              </button>
-            </th>
-            <th>Description</th>
-            <th>Email</th>
-            <th>
-              <button
-                type="button"
-                className="btn btn-link"
-                onClick={() =>
-                  setSortMethod(sortMethod === "Active" ? "Inactive" : "Active")
-                }
-              >
-                Active
-                {sortMethod === "Active" && sortOrder === "asc" && (
-                  <i className="fas fa-caret-up ml-2"></i>
-                )}
-                {sortMethod === "Active" && sortOrder === "desc" && (
-                  <i className="fas fa-caret-down ml-2"></i>
-                )}
-              </button>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {greekLifeList.map((club) => (
-            <tr key={club.id}>
-              <td>{club.name}</td>
-              <td>{club.size}</td>
-              <td>{club.desc}</td>
-              <td>{club.email}</td>
-              <td>{club.status ? "Yes" : "No"}</td>
+        <div style={{
+          height: '10px',
+        }} />
+      <div
+        className="list-group-item justify-content-center align-items-center mx-auto"
+        style={{
+          width: '90vw',
+          backgroundColor: '#ffffffa0',
+          borderRadius: '10px',
+          padding: '20px',
+          overflowY: 'auto',
+          alignContent: 'top',
+          height: '75vh',
+        }}
+      >
+      <div className="table-responsive">
+        <table className="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>
+                <button
+                  type="button"
+                  className="btn btn-link"
+                  onClick={() =>
+                    setSortMethod(sortMethod === "nameAsc" ? "nameDesc" : "nameAsc")
+                  }
+                >
+                  Name
+                  {sortMethod === "nameAsc" && sortOrder === "asc" && (
+                    <i className="fas fa-caret-up ml-2"></i>
+                  )}
+                  {sortMethod === "nameAsc" && sortOrder === "desc" && (
+                    <i className="fas fa-caret-down ml-2"></i>
+                  )}
+                </button>
+              </th>
+              <th>
+                <button
+                  type="button"
+                  className="btn btn-link"
+                  onClick={() =>
+                    setSortMethod(sortMethod === "sizeAsc" ? "sizeDesc" : "sizeAsc")
+                  }
+                >
+                  Members_num
+                  {sortMethod === "sizeAsc" && sortOrder === "asc" && (
+                    <i className="fas fa-caret-up ml-2"></i>
+                  )}
+                  {sortMethod === "sizeAsc" && sortOrder === "desc" && (
+                    <i className="fas fa-caret-down ml-2"></i>
+                  )}
+                </button>
+              </th>
+              <th>Description</th>
+              <th>Email</th>
+              <th>
+                <button
+                  type="button"
+                  className="btn btn-link"
+                  onClick={() =>
+                    setSortMethod(sortMethod === "Active" ? "Inactive" : "Active")
+                  }
+                >
+                  Active
+                  {sortMethod === "Active" && sortOrder === "asc" && (
+                    <i className="fas fa-caret-up ml-2"></i>
+                  )}
+                  {sortMethod === "Active" && sortOrder === "desc" && (
+                    <i className="fas fa-caret-down ml-2"></i>
+                  )}
+                </button>
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filtered.map((orgs) => (
+              <tr key={orgs.id}>
+                <td>{orgs.name}</td>
+                <td>{orgs.size}</td>
+                <td>{orgs.description}</td>
+                <td>{orgs.email}</td>
+                <td>{orgs.status ? "Yes" : "No"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 );
