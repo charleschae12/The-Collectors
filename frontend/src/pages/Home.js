@@ -58,14 +58,16 @@ function Home() {
       textAlign: 'center',
   }}>
     <div className="App list-group-item justify-content-center align-items-center mx-auto" style={{
-      width: "50vw",
+      width: "70vw",
       paddingTop: "100px",
       justifyContent: 'center',
       }}>
-      <h1 styleName="max-width: 20rem;">HELLO AND WELCOME!</h1>
+      <h1 styleName="max-width: 20rem;" style={{
+        height: '3vh',
+      }}>HELLO AND WELCOME!</h1>
       <h6>FIND ALL RPI CLUBS AND ORGANIZATIONS HERE</h6>
       <div style={{
-        paddingTop: '2vh',
+        paddingTop: '1.5vh',
         justifyContent: 'center',
         alignContent: 'center',
       }}>
@@ -78,7 +80,7 @@ function Home() {
           backgroundColor: '#ffffffa0',
           borderRadius: '10px',
           width: '100%',
-          height: '55vh',
+          height: '60vh',
           alignContent: 'top',
           overflowY: 'auto',
         }}>
