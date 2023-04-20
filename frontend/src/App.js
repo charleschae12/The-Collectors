@@ -43,7 +43,7 @@ function App() {
             <Route path="/Profile" element={<Profile />}/>
             <Route path="/profile-edit" element={<ProfileEdit />} />
             <Route path="/clubpage/:name" element={<ClubPersonal />}/>
-            <Route path="/organizationspage/:name" element={<OrganizationsPersonal />}/>
+            <Route path="/orgspage/:name" element={<OrganizationsPersonal />}/>
           </Routes>
         <Navbar />
       </BrowserRouter>
