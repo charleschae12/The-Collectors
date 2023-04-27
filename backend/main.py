@@ -9,7 +9,7 @@ from typing import Optional
 app = FastAPI()
 
 origins = [
-    "http://localhost:3000",  # Allow the React frontend to communicate with the API
+    "https://the-collecters.vercel.app",  # Allow the deployed React frontend to communicate with the API
 ]
 
 app.add_middleware(
